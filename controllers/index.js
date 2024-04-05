@@ -1,7 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-const homeRoutes = require('./controllers/homeRoutes');
+const homeRoutes = require('./homeRoutes');
 require('dotenv').config();
 
 const app = express();
