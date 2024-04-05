@@ -13,8 +13,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false, // Set to true if using HTTPS
-        maxAge: 3600000 // Cookie expiration time in milliseconds (optional)
+        secure: false, 
+        maxAge: 3600000 // 1 hour
     }
 }));
 
@@ -22,7 +22,7 @@ app.use(session({
 app.use('/', homeRoutes);
 
 // Start the server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000; 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
