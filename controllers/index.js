@@ -5,7 +5,6 @@ const homeRoutes = require('./controllers/homeRoutes');
 require('dotenv').config();
 
 const app = express();
-
 app.use(cookieParser());
 
 app.use(session({
@@ -20,6 +19,15 @@ app.use(session({
 
 // Mount homeRoutes on the main Express app
 app.use('/', homeRoutes);
+
+// Route handler for the home page
+app.get('/', (req, res) => {
+    if (req.session.username) {
+        res.send(`Hello, ${req.session.username}!`);
+    } else {
+        res.send('Welcome!');
+    }
+});
 
 // Start the server
 const PORT = process.env.PORT || 3000; 
