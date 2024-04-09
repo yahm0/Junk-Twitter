@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 require('dotenv').config();
 const { Router } = require('express');
 const database = require(process.env.DB_NAME);
