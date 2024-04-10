@@ -15,15 +15,92 @@
 This is Junk Twitter. Like Twitter but Junk. Create your Profile today and start tweeting.
 
 ## Features
-
+- User authentication with bcrypt for secure password hashing.
+- Session management using express-session and cookie-parser for handling user sessions.
+- Integration with MySQL database using Sequelize ORM for data storage and manipulation.
+- Implementation of CRUD operations (Create, Read, Update, Delete) for managing user data.
+- Templating engine integration with express-handlebars for rendering dynamic views.
+- Environment variable configuration with dotenv for managing sensitive data.
+- Optional database seeding functionality for populating initial data.
 
 ## Getting Started
 
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
+
+### Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+
+- Node.js installed on your local machine. You can download and install Node.js from [nodejs.org](https://nodejs.org/).
 
 ### Installation
 
+1. Clone the repository:
+
+   ```bash
+   git clone <repository-url>
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd user-list
+   ```
+3. Install dependencies using npm:
+    ```bash
+   npm install
+   ```
+4. Create a .env file in the root directory of the project.
+5. Add the following environment variables to the .env file:
+    ```plaintext
+   DB_NAME=your_database_name
+    DB_USER=your_database_username
+    DB_PASSWORD=your_database_password
+   ```
+    Replace your_database_name, your_database_username, and your_database_password with your actual database credentials.
+
+6. To start the application, run the following command:
+    ```bash
+   npm start
+   ```
+
+7. If you need to populate initial data into your database, you can run the following command:
+    ```bash
+   npm run seed
+   ```
 
 ## Usage
+
+### Sign Up
+
+1. Navigate to the sign-up page by clicking on the "Sign Up" link.
+2. Fill out the required fields, including username, email, and password.
+3. Click the "Sign Up" button to create your account.
+
+### Log In
+
+1. Navigate to the log-in page by clicking on the "Log In" link.
+2. Enter your registered email and password.
+3. Click the "Log In" button to access your account.
+
+### View Profile
+
+1. Once logged in, you will be redirected to your profile page.
+2. Here, you can view your profile information, including your username and email.
+
+### Create a Tweet
+
+1. On the dashboard or home page, you'll find a text input area labeled "Compose Tweet."
+2. Type your message in the text input area.
+3. Click the "Tweet" button to post your message.
+
+### View Tweets
+
+1. On the dashboard or home page, you'll see a feed of tweets from users you follow.
+2. Scroll through the feed to view tweets from other users.
+
+### Log Out
+
+1. To log out of your account, click on the "Log Out" link.
+2. You will be redirected to the log-in page.
 
 
 ## Dependencies
