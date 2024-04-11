@@ -36,4 +36,7 @@ router.post('/register', async (req, res) => {
 });
 router.post('/register', (req, res) => res.send('User registered successfully'));
 
+router.post('/tweet', postTweet);
+router.post('/like', likeTweet);
+
 module.exports = router;
