@@ -1,4 +1,4 @@
-const { User, Tweet } = require('../models'); // Adjust the path to your models' index file
+const { User, Tweet } = require('../models'); // Path to the model
 
 const postTweet = async (req, res) => {
   try {

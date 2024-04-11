@@ -1,4 +1,4 @@
-const { Tweet, Like } = require('../models'); // Adjust the path to your models' index file
+const { Tweet, Like } = require('../models'); // path to the models
 
 const likeTweet = async (req, res) => {
   try {
