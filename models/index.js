@@ -1,8 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('database', 'username', 'password', {
-  host: 'localhost',
-  dialect: 'mysql'
-});
+const sequelize = require('../config/connection');
 
 // Import models
 const userModel = require('./User');
