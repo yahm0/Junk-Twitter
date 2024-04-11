@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS junk;
 CREATE DATABASE junk;
 
    -- Stores user information. Each user has a unique username and email.
