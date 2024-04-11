@@ -36,7 +36,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
-router.post('/tweet', postTweet);
-router.post('/like', likeTweet);
+router.post('../models/tweet', postTweet);
+router.post('../models/like', likeTweet);
 
 module.exports = router;
