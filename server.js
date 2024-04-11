@@ -52,6 +52,11 @@ app.get('/', (req, res) => {
   res.render('./layouts/main', { username: req.session.username });
 });
 
+app.get('/some-route', (req, res) => {
+  const someData = {}; // Your data here
+  res.render('card', { layout: 'main', tweets: someData });
+});
+
 app.use('/', routes);
 
 // Start server
