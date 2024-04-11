@@ -1,49 +1,28 @@
-const Like = require('../models/index');
+const { Tweet, Like } = require('../models'); // Adjust the path to your models' index file
 
-// Controller for adding a like to a card
-exports.addLike = async (req, res) => {
-    try {
-        const { cardId } = req.params;
-        const newLike = await Like.create({ userId: req.session.userId, cardId });
-        res.status(201).json(newLike);
-    } catch (error) {
-        console.error('Error adding like:', error);
-        res.status(500).json({ error: 'An error occurred while adding the like' });
-    }
-};
+const likeTweet = async (req, res) => {
+  try {
+    const { userId, tweetId } = req.body;
 
-// Controller for removing a like from a card
-exports.removeLike = async (req, res) => {
-    try {
-        const { cardId } = req.params;
-        await Like.destroy({ where: { userId: req.session.userId, cardId } });
-        res.json({ message: 'Like removed successfully' });
-    } catch (error) {
-        console.error('Error removing like:', error);
-        res.status(500).json({ error: 'An error occurred while removing the like' });
+    // Check if the tweet exists
+    const tweet = await Tweet.findByPk(tweetId);
+    if (!tweet) {
+      return res.status(404).json({ message: 'Tweet not found' });
     }
-};
 
-// Controller for adding a dislike to a card
-exports.addDislike = async (req, res) => {
-    try {
-        const { cardId } = req.params;
-        const newDislike = await Like.create({ userId: req.session.userId, cardId, isDislike: true });
-        res.status(201).json(newDislike);
-    } catch (error) {
-        console.error('Error adding dislike:', error);
-        res.status(500).json({ error: 'An error occurred while adding the dislike' });
-    }
-};
+    // Prevent duplicate likes
+    const [like, created] = await Like.findOrCreate({
+      where: { user_id: userId, tweet_id: tweetId },
+      defaults: { is_like: true }
+    });
 
-// Controller for removing a dislike from a card
-exports.removeDislike = async (req, res) => {
-    try {
-        const { cardId } = req.params;
-        await Like.destroy({ where: { userId: req.session.userId, cardId, isDislike: true } });
-        res.json({ message: 'Dislike removed successfully' });
-    } catch (error) {
-        console.error('Error removing dislike:', error);
-        res.status(500).json({ error: 'An error occurred while removing the dislike' });
+    if (!created) {
+      return res.status(409).json({ message: 'You already liked this tweet' });
     }
+
+    res.status(201).json({ message: 'Tweet liked successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Liking tweet failed' });
+  }
 };
