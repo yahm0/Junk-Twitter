@@ -5,9 +5,8 @@ const cookieParser = require('cookie-parser');
 const homeRoutes = require('./controllers/homeRoutes');
 const helpers = require('./utils/helpers');
 const path = require('path');
-const
-
-require('dotenv').config();
+const sequelize = require('./config/connection');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const app = express();
 
@@ -46,7 +45,5 @@ app.get('/', (req, res) => res.send(req.session.username ? `Hello, ${req.session
 
 
 // Start server
-const PORT = process.env.PORT || 3000;
-
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
-
