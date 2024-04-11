@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../db/schema.sql'); // Sequelize connection is initialized
-const User = require('./User'); // Importing the User model to establish associations
+const User = require('./User.js'); // Importing the User model to establish associations
 
 class Tweet extends Model {}
 
@@ -35,3 +35,5 @@ Tweet.init({
     underscored: true, // Ensures the automatic attributes follow the snake_case convention
     tableName: 'tweets' 
   });
+
+  module.exports = Tweet;
