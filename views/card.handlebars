@@ -1,8 +1,33 @@
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">{{name}}</h5>
-        <p class="card-text">{{comment}}</p>
-        <p class="card-text">{{likes}}</p>
-        <p class="card-text">{{dislikes}}</p>
-    </div>
-</div>
+        {{#each tweets}}
+            <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+                <!-- User Info -->
+                <div class="flex items-center mb-2">
+                    <img src="{{user.avatar}}" alt="User Avatar" class="rounded-full mr-2">
+                    <div>
+                        <h2 class="font-semibold">{{user.name}}</h2>
+                        <p class="text-gray-500">@{{user.username}}</p>
+                    </div>
+                </div>
+                <!-- Tweet Content -->
+                <p class="text-lg mb-4">{{text}}</p>
+                <!-- Action Buttons -->
+                <div class="flex justify-between items-center">
+                    <button class="text-blue-500 hover:text-blue-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        <span class="ml-1">Retweet</span>
+                    </button>
+                    <button class="text-blue-500 hover:text-blue-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span class="ml-1">Like</span>
+                    </button>
+                </div>
+            </div>
+        {{/each}}
