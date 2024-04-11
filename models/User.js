@@ -35,4 +35,12 @@ User.init({
       allowNull: false,
       defaultValue: DataTypes.NOW
     }
-}
+}, {
+    sequelize,
+    modelName: 'User',
+    timestamps: true, // Enable Sequelize to manage createdAt and updatedAt
+    underscored: true, // Use snake_case rather than camelCase for automatically added attributes
+    tableName: 'users' // Explicitly specify table name to match your SQL schema
+  });
+  
+  module.exports = User;
