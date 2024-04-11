@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const database = require('../models/User');
-const path = require('path');
+// const path = require('path');
 
 // Set the views directory
 // app.set('views', path.join(__dirname, 'views'));
