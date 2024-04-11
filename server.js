@@ -2,42 +2,60 @@ const path = require('path');
 const express = require('express');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
-// const routes = require('./controllers');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const helpers = require('./utils/helpers');
 
 const sequelize = require('./config/connection');
+// const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-// Create a new sequelize store using the express-session package
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const routes = require('./controllers/index');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 const hbs = exphbs.create({ helpers });
 
-// Configure and link a session object with the sequelize store
-const sess = {
-  secret: 'Super secret secret',
-  cookie: {},
+app.use(session({
+  secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true,
-  store: new SequelizeStore({
-    db: sequelize
-  })
+  saveUninitialized: true
+}));
+
+app.use(cookieParser());
+const sess = {
+  secret: process.env.SESSION_SECRET,
+  cookie: {
+    maxAge: 300000,
+    httpOnly: true,
+    secure: false,
+    sameSite: 'strict',
+  },
+  // resave: false,
+  // saveUninitialized: true,
+  // store: new SequelizeStore({
+  //   db: sequelize
+  // })
 };
-
-// Add express-session and store as Express.js middleware
-app.use(session(sess));
-
-app.engine('handlebars', hbs.engine);
-app.set('view engine', 'handlebars');
-
+// app.use(session(sess));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use(routes);
+// Inform Express.js on which template engine to use
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
 
-sequelize.sync({ force: false }).then(() => {
-  app.listen(PORT, () => console.log('Now listening'));
+// Set the directory where your views are located
+app.set('views', path.join(__dirname, 'views'));
+
+// // Default route
+app.get('/', (req, res) => {
+  res.render('./layouts/main', { username: req.session.username });
 });
+
+app.use('/', routes);
+
+// Start server
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

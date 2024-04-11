@@ -1,41 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <title>Junk Twitter</title>
-    <link rel="stylesheet" href="/css/jass.css" />
-    <link rel="stylesheet" href="/css/style.css" />
-  </head>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-<body>
-  <div class="flex-column justify-space-around">
-    <header class="display-flex justify-space-between align-center p-2">
-      <h1>
-        Junk Twitter
-      </h1>
-      <nav>
-        <!-- Conditionally render login or logout links -->
-        {{#if logged_in}}
-        <a href="/profile">profile</a> |
-        <button class="no-button" id="logout">logout</button>
-        {{else}}
-        <a href="/login">login</a>
-        {{/if}}
-      </nav>
+<body class="flex flex-col justify-between min-h-screen gap-8 columns-3 font-mono">
+
+    <header class="flex justify-between items-center p-4 bg-yellow-900">
+        <h1 class="text-xl font-bold">Junk Twitter</h1>
+        <nav>
+            {{#if logged_in}}
+                <a href="/profile">Profile</a> | 
+                <button id="logout">Logout</button>
+            {{else}}
+                <a href="/login">Login</a>
+            {{/if}}
+        </nav>
     </header>
-    <main class="container container-fluid mt-5">
-      <!-- Render the sub layout -->
-      {{{ body }}}
-    </main>
-    <footer>
-      
-    </footer>
-  </div>
 
-  <!-- Render script for logged in users only -->
-  {{#if logged_in}}
-  <script src="/js/logout.js"></script>
-  {{/if}}
+    <card class="container px-80">
+        {{{ body }}}
+    </card>
+
+    <footer class="p-4 bg-yellow-900">
+        <!-- Footer Content -->
+    </footer>
+
+    {{#if logged_in}}
+        <script src="/js/logout.js"></script>
+    {{/if}}
+
 </body>
 
 </html>
