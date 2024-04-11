@@ -3,6 +3,9 @@ const exphbs = require('express-handlebars');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const homeRoutes = require('./controllers/homeRoutes');
+const helpers = require('./utils/helpers');
+const path = require('path');
+const
 
 require('dotenv').config();
 
@@ -12,12 +15,21 @@ const app = express();
 const hbs = exphbs.create({ helpers });
 
 app.use(cookieParser());
-app.use(session({ 
-  secret: process.env.SESSION_SECRET, 
-  resave: false, 
-  saveUninitialized: false, 
-  cookie: { secure: false, maxAge: 3600000 } 
-}));
+const sess = {
+  secret: process.env.SESSION_SECRET,
+  cookie: {
+    maxAge: 300000,
+    httpOnly: true,
+    secure: false,
+    sameSite: 'strict',
+  },
+  resave: false,
+  saveUninitialized: true,
+  store: new SequelizeStore({
+    db: sequelize
+  })
+};
+app.use(session(sess));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -32,6 +44,9 @@ app.use('/', homeRoutes);
 // Default route
 app.get('/', (req, res) => res.send(req.session.username ? `Hello, ${req.session.username}!` : 'Welcome!'));
 
+
 // Start server
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+
