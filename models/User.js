@@ -38,9 +38,9 @@ User.init({
 }, {
     sequelize,
     modelName: 'User',
-    timestamps: true, // Enable Sequelize to manage createdAt and updatedAt
+    timestamps: true, // Enables Sequelize to manage createdAt and updatedAt
     underscored: true, // Use snake_case rather than camelCase for automatically added attributes
-    tableName: 'users' // Explicitly specify table name to match your SQL schema
+    tableName: 'users' 
   });
   
   module.exports = User;
