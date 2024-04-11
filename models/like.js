@@ -1,7 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../db/schema.sql');
-const User = require('./User.js'); // importing the User model
-const Tweet = require('./tweet.js'); // importing the Tweet model
 
 class Like extends Model {}
 
