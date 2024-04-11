@@ -13,9 +13,8 @@
             "password": "hashed_password2"
         }
     ],
-    {
-        "tweets": [
-            {
+    "tweets": [
+        {
                 "id": 1,
                 "content": "Exploring the world of Node.js!",
                 "user_id": 1,
