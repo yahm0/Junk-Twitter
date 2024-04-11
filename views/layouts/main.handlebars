@@ -20,9 +20,41 @@
         </nav>
     </header>
 
-    <card class="container px-80">
-        {{{ body }}}
-    </card>
+<div class="mt-4">
+  <input type="text" id="tweetInput" placeholder="Enter tweet" class="input border rounded p-2 mb-4 w-full" />
+  <button onclick="submitTweet()" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+</div>
+
+<div id="tweetsContainer">
+  {{#each tweets}}
+  <div class="card bg-white shadow-lg rounded-lg p-6 mb-4">
+    <div class="flex flex-col md:flex-row">
+      <div class="md:w-1/2">
+        <h2 class="text-2xl"><a href="/card/{{id}}" class="text-blue-500">{{name}}</a></h2>
+        <p class="text-gray-700">Lorem Ipsum</p>
+        <p class="text-sm text-gray-600">Created by {{user.name}} on {{timestamp}}</p>
+      </div>
+      <div class="md:w-1/2 mt-4 md:mt-0">
+        <p class="text-gray-800">{{description}}</p>
+      </div>
+    </div>
+    <!-- Like and Dislike buttons -->
+    <div class="flex mt-4">
+      <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">Like</button>
+      <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Dislike</button>
+    </div>
+  </div>
+  {{/each}}
+</div>
+
+<script>
+function submitTweet() {
+  var inputVal = document.getElementById('tweetInput').value;
+  // Assuming you have a way to handle this, like sending it to a server via AJAX
+  console.log("Submit tweet: ", inputVal);
+  // You'd need to handle the actual creation and display of the tweet card here or on the server.
+}
+</script>
 
     <footer class="p-4 bg-yellow-900">
         <!-- Footer Content -->
