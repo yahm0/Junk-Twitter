@@ -1,251 +1,130 @@
-# 15 Project 2: Interactive Full-Stack Application
+# Junk Twitter
 
+1. [Introduction](#introduction)
+2. [Features](#features)
+3. [Getting Started](#getting-started)
+4. [Usage](#usage)
+5. [Dependencies](#dependencies)
+6. [Support](#support)
+7. [Contributing](#contributing)
+8. [License](#license)
+9. [Project Link](#project-link)
 
+## Introduction
 
-Projects play a key role in your journey to becoming a full-stack web developer. As you enter the last phase of the boot camp, you’ll begin to apply for development jobs. If you want to land interviews, your portfolio must feature high-quality deployed examples of your work—-and you can use your finished projects for that very purpose.
+This is Junk Twitter. Like Twitter but Junk. Create your Profile today and start tweeting.
 
+## Features
+- User authentication with bcrypt for secure password hashing.
+- Session management using express-session and cookie-parser for handling user sessions.
+- Integration with MySQL database using Sequelize ORM for data storage and manipulation.
+- Implementation of CRUD operations (Create, Read, Update, Delete) for managing user data.
+- Templating engine integration with express-handlebars for rendering dynamic views.
+- Environment variable configuration with dotenv for managing sensitive data.
+- Optional database seeding functionality for populating initial data.
 
+## Getting Started
 
-As your first opportunity to show employers your collaborative skills and coding abilities, this particular project will be a focal point of your portfolio.Employers want to see what you can do, but they also want to see how you work with other developers. The more examples of deployed collaborative work you have in your portfolio, the more likely you are to get an interview and a job.
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
+### Prerequisites
 
+Before you begin, ensure you have met the following requirements:
 
-## Project Requirements
+- Node.js installed on your local machine. You can download and install Node.js from [nodejs.org](https://nodejs.org/).
 
+### Installation
 
+1. Clone the repository:
 
-You and your group will use everything you’ve learned over the past six modules to create a real-world full-stack application that you’ll be able to showcase to potential employers. The user story and acceptance criteria will depend on the project that you create, but your project must fulfil the following requirements:
+   ```bash
+   git clone <repository-url>
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd user-list
+   ```
+3. Install dependencies using npm:
+    ```bash
+   npm install
+   ```
+4. Create a .env file in the root directory of the project.
+5. Add the following environment variables to the .env file:
+    ```plaintext
+   DB_NAME=your_database_name
+    DB_USER=your_database_username
+    DB_PASSWORD=your_database_password
+   ```
+    Replace your_database_name, your_database_username, and your_database_password with your actual database credentials.
 
+6. To start the application, run the following command:
+    ```bash
+   npm start
+   ```
 
+7. If you need to populate initial data into your database, you can run the following command:
+    ```bash
+   npm run seed
+   ```
 
-* Use Node.js and Express.js to create a RESTful API.
+## Usage
 
+### Sign Up
 
+1. Navigate to the sign-up page by clicking on the "Sign Up" link.
+2. Fill out the required fields, including username, email, and password.
+3. Click the "Sign Up" button to create your account.
 
-* Use Handlebars.js as the template engine.
+### Log In
 
+1. Navigate to the log-in page by clicking on the "Log In" link.
+2. Enter your registered email and password.
+3. Click the "Log In" button to access your account.
 
+### View Profile
 
-* Use MySQL and the Sequelize ORM for the database.
+1. Once logged in, you will be redirected to your profile page.
+2. Here, you can view your profile information, including your username and email.
 
+### Create a Tweet
 
+1. On the dashboard or home page, you'll find a text input area labeled "Compose Tweet."
+2. Type your message in the text input area.
+3. Click the "Tweet" button to post your message.
 
-* Have both GET and POST routes for retrieving and adding new data.
+### View Tweets
 
+1. On the dashboard or home page, you'll see a feed of tweets from users you follow.
+2. Scroll through the feed to view tweets from other users.
 
+### Log Out
 
-* Use at least one new library, package, or technology that we haven’t discussed.
+1. To log out of your account, click on the "Log Out" link.
+2. You will be redirected to the log-in page.
 
 
+## Dependencies
+- [bcrypt](https://www.npmjs.com/package/bcrypt) v5.0.0
+- [dotenv](https://www.npmjs.com/package/dotenv) v8.2.0
+- [express](https://www.npmjs.com/package/express) v4.17.1
+- [express-handlebars](https://www.npmjs.com/package/express-handlebars) v5.2.0
+- [mysql2](https://www.npmjs.com/package/mysql2) v2.2.5
+- [sequelize](https://www.npmjs.com/package/sequelize) v6.3.5
+- [express-session](https://www.npmjs.com/package/express-session) v1.17.2
+- [cookie-parser](https://www.npmjs.com/package/cookie-parser) v1.4.5
 
-* Have a folder structure that meets the MVC paradigm.
+## Support
 
+For any support-related queries, please email us at [support@example.com](mailto:support@example.com).
 
+## Contributing
 
-* Include authentication (express-session and cookies).
+We welcome contributions to Junk Twitter! Please consult our contributing guidelines for more details on how to participate.
 
+## License
 
+This project is licensed under the GNU General Public License. See the [LICENSE](LICENSE.md) file for more details.
 
-* Protect API keys and sensitive information with environment variables.
+## Project Link
 
-
-
-* Be deployed using Heroku (with data).
-
-
-
-* Have a polished UI.
-
-
-
-* Be responsive.
-
-
-
-* Be interactive (i.e., accept and respond to user input).
-
-
-
-* Meet good-quality coding standards (file structure, naming conventions, follows best practices for class/id naming conventions, indentation, quality comments, etc.).
-
-
-
-* Have a professional README (with unique name, description, technologies used, screenshot, and link to deployed application).
-
-
-
-## Presentation Requirements
-
-
-
-Use this [project presentation template](https://docs.google.com/presentation/d/10QaO9KH8HtUXj__81ve0SZcpO5DbMbqqQr4iPpbwKks/edit?usp=sharing) to address the following: 
-
-
-
-* Elevator pitch: a one minute description of your application
-
-
-
-* Concept: What is your user story? What was your motivation for development?
-
-
-
-* Process: What were the technologies used? How were tasks and roles broken down and assigned? What challenges did you encounter? What were your successes?
-
-
-
-* Demo: Show your stuff!
-
-
-
-* Directions for Future Development
-
-
-
-* Links to the deployed application and the GitHub repository. Use the [Guide to Deploy with Heroku and MySQL](https://coding-boot-camp.github.io/full-stack/heroku/deploy-with-heroku-and-mysql) on The Full-Stack Blog if you need a reminder on how to deploy to Heroku.
-
-
-
-## Grading Requirements
-
-
-
-This project is graded based on the following criteria:
-
-
-
-### Technical Acceptance Criteria: 25%
-
-
-
-* Satisfies the following code requirements:
-
-
-
-  * Application uses a Node.js and Express.js back end and uses both GET and POST routes for retrieving and adding new data.
-
-
-
-  * Application has a folder structure that meets the MVC paradigm and uses Handlebars.js as the template engine.
-
-
-
-  * Application is backed by a MySQL database with a Sequelize ORM and protects API keys and sensitive information with environment variables.
-
-
-
-  * Application includes user authentication (express-session and cookies).
-
-
-
-  * Application uses at least one new library, package, or technology not covered in class.
-
-
-
-### Concept 10%
-
-
-
-* Application should be a unique and novel idea.
-
-
-
-* Your group should clearly and concisely articulate your project idea.
-
-
-
-### Deployment: 20%
-
-
-
-* Application deployed at live URL on Heroku and loads with no errors.
-
-
-
-* Application GitHub URL submitted.
-
-
-
-### Repository Quality: 10%
-
-
-
-* Repository has a unique name.
-
-
-
-* Repository follows best practices for file structure and naming conventions.
-
-
-
-* Repository follows best practices for class/id-naming conventions, indentation, quality comments, etc.
-
-
-
-* Repository contains multiple descriptive commit messages.
-
-
-
-* Repository contains quality README file with description, screenshot, and link to deployed application.
-
-
-
-### Application Quality: 15%
-
-
-
-* Application user experience is intuitive and easy to navigate.
-
-
-
-* Application user interface style is clean and polished.
-
-
-
-* Application is responsive.
-
-
-
-### Presentation 10%
-
-
-
-* Your group should present using a slide deck.
-
-
-
-* Every group member should speak during the presentation.
-
-
-
-* Your presentation should follow the [Project Presentation Template](https://docs.google.com/presentation/d/10QaO9KH8HtUXj__81ve0SZcpO5DbMbqqQr4iPpbwKks/edit?usp=sharing).
-
-
-
-### Collaboration 10%
-
-
-
-* There are no major disparities in the number of GitHub contributions between group members.
-
-
-
-## How to Submit Your Interactive Full-Stack Project
-
-
-
-**Each member of your group** is required to submit the following for review:
-
-
-
-* The URL of the deployed application.
-
-
-
-* The URL of the GitHub repository, with a unique name and a README describing the project.
-
-
-
----
-
-© 2024 edX Boot Camps LLC. Confidential and Proprietary. All Rights Reserved.
+For the live version of the project, please visit: [Junk Twitter]().
