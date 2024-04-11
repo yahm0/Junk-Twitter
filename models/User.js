@@ -1,11 +1,10 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/connection'); 
+const sequelize = require('../config/connection');
+const bcrypt = require('bcryptjs');
 
 class User extends Model {}
 
-
 User.init({
-    // Model attributes corresponding to table fields
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -19,28 +18,30 @@ User.init({
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
+      validate: {
+        isEmail: true,
+      }
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
-    },
-    created_at: {
-      type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW
-    },
-    updated_at: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW
+      validate: {
+        len: [8, 100], // Minimum and maximum length
+      }
     }
 }, {
     sequelize,
     modelName: 'User',
-    timestamps: true, // Enables Sequelize to manage createdAt and updatedAt
-    underscored: true, // Use snake_case rather than camelCase for automatically added attributes
-    tableName: 'users' 
-  });
-  
-  module.exports = User;
+    timestamps: true,
+    underscored: true,
+    tableName: 'users',
+    hooks: {
+      beforeCreate: async (user) => {
+        const hashedPassword = await bcrypt.hash(user.password, 10);
+        user.password = hashedPassword;
+      }
+    }
+});
+
+module.exports = User;

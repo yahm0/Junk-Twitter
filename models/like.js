@@ -13,7 +13,7 @@ Like.init({
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'tweets', 
+        model: 'tweets', // Ensures the reference to the tweets table
         key: 'id'
       }
     },
@@ -21,18 +21,13 @@ Like.init({
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'users', 
+        model: 'users', // Ensures the reference to the users table
         key: 'id'
       }
     },
     is_like: {
       type: DataTypes.BOOLEAN,
       allowNull: false
-    },
-    created_at: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW
     }
   }, {
     sequelize,
@@ -41,5 +36,5 @@ Like.init({
     underscored: true, // To ensure the field names use snake_case, matching the SQL table
     tableName: 'likes', 
   });
-  
-  module.exports = Like;
+
+module.exports = Like;

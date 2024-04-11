@@ -4,6 +4,31 @@
     <meta charset="UTF-8" />
     <title>Junk Twitter</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        .full-height-image {
+            height: 100vh;  /* Full viewport height */
+            width: 100vw;   /* Full viewport width */
+            object-fit: cover; /* Cover the entire area without stretching the image */
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1; /* Ensure the image stays in the background */
+        }
+        .content {
+            position: relative; /* Ensures content is above the background */
+            z-index: 10;
+        }
+        /* Additional styling to ensure text is visible over the image */
+        .card, nav {
+            background-color: rgba(255, 255, 255, 0.8); /* Slight transparency to see image */
+        }
+    </style>
 </head>
 
 <body class="flex flex-col justify-between min-h-screen gap-8 columns-3 font-mono">
@@ -15,46 +40,38 @@
                 <a href="/profile">Profile</a> | 
                 <button id="logout">Logout</button>
             {{else}}
-                <a href="/login">Login</a>
+                <a href="./partials/login" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</a>
+                <a href="./partials/signup" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Sign Up</a>
             {{/if}}
         </nav>
     </header>
 
-<div class="mt-4">
-  <input type="text" id="tweetInput" placeholder="Enter tweet" class="input border rounded p-2 mb-4 w-full" />
-  <button onclick="submitTweet()" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
-</div>
+    <!-- Background Image -->
+    <img src="https://t4.ftcdn.net/jpg/01/23/78/05/360_F_123780524_vqBvLrVx75U7QV5JuUNeigyAFaqLDFHy.jpg" alt="Landfill Image" class="full-height-image">
 
-<div id="tweetsContainer">
-  {{#each tweets}}
-  <div class="card bg-white shadow-lg rounded-lg p-6 mb-4">
-    <div class="flex flex-col md:flex-row">
-      <div class="md:w-1/2">
-        <h2 class="text-2xl"><a href="/card/{{id}}" class="text-blue-500">{{name}}</a></h2>
-        <p class="text-gray-700">Lorem Ipsum</p>
-        <p class="text-sm text-gray-600">Created by {{user.name}} on {{timestamp}}</p>
-      </div>
-      <div class="md:w-1/2 mt-4 md:mt-0">
-        <p class="text-gray-800">{{description}}</p>
-      </div>
+    <div class="content">
+        <div id="tweetsContainer">
+            {{#each tweets}}
+            <div class="card bg-white shadow-lg rounded-lg p-6 mb-4">
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/2">
+                        <h2 class="text-2xl"><a href="/card/{{id}}" class="text-blue-500">{{name}}</a></h2>
+                        <p class="text-gray-700">Lorem Ipsum</p>
+                        <p class="text-sm text-gray-600">Created by {{user.name}} on {{timestamp}}</p>
+                    </div>
+                    <div class="md:w-1/2 mt-4 md:mt-0">
+                        <p class="text-gray-800">{{description}}</p>
+                    </div>
+                </div>
+                <!-- Like and Dislike buttons -->
+                <div class="flex mt-4">
+                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">Like</button>
+                    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Dislike</button>
+                </div>
+            </div>
+            {{/each}}
+        </div>
     </div>
-    <!-- Like and Dislike buttons -->
-    <div class="flex mt-4">
-      <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">Like</button>
-      <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Dislike</button>
-    </div>
-  </div>
-  {{/each}}
-</div>
-
-<script>
-function submitTweet() {
-  var inputVal = document.getElementById('tweetInput').value;
-  // Assuming you have a way to handle this, like sending it to a server via AJAX
-  console.log("Submit tweet: ", inputVal);
-  // You'd need to handle the actual creation and display of the tweet card here or on the server.
-}
-</script>
 
     <footer class="p-4 bg-yellow-900">
         <!-- Footer Content -->
@@ -65,5 +82,4 @@ function submitTweet() {
     {{/if}}
 
 </body>
-
 </html>

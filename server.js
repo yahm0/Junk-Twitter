@@ -1,64 +1,53 @@
+require('dotenv').config(); // Import and configure dotenv at the top
 const path = require('path');
 const express = require('express');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
 const cookieParser = require('cookie-parser');
-const helpers = require('./utils/helpers');
-
-const sequelize = require('./config/connection');
-// const SequelizeStore = require('connect-session-sequelize')(session.Store);
-
 const routes = require('./controllers/index');
 
 const app = express();
+const PORT = process.env.PORT || 3001;
 
-const hbs = exphbs.create({ helpers });
-
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true
-}));
-
-app.use(cookieParser());
-const sess = {
-  secret: process.env.SESSION_SECRET,
-  cookie: {
-    maxAge: 300000,
-    httpOnly: true,
-    secure: false,
-    sameSite: 'strict',
-  },
-  // resave: false,
-  // saveUninitialized: true,
-  // store: new SequelizeStore({
-  //   db: sequelize
-  // })
-};
-// app.use(session(sess));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Inform Express.js on which template engine to use
-app.engine('handlebars', hbs.engine);
+// Set up Handlebars view engine
+app.engine('handlebars', exphbs.create({
+    defaultLayout: 'main', // assuming a main layout file for Handlebars
+    extname: '.handlebars' // custom extension for Handlebars files
+}).engine);
 app.set('view engine', 'handlebars');
-
-// Set the directory where your views are located
 app.set('views', path.join(__dirname, 'views'));
 
-// // Default route
-app.get('/', (req, res) => {
-  res.render('./layouts/main', { username: req.session.username });
-});
+// Middleware for parsing URL-encoded bodies and JSON
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cookieParser());
 
-app.get('/some-route', (req, res) => {
-  const someData = {}; // Your data here
-  res.render('card', { layout: 'main', tweets: someData });
-});
+// Session configuration
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'default_secret_key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 3600000, // 1 hour
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // Secure cookies in production
+        sameSite: 'strict' // Strictly same site
+    }
+}));
 
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Apply routes from the external router
 app.use('/', routes);
 
-// Start server
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something went wrong!');
+});
+
+// Start the server on the specified port
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});

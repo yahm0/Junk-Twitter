@@ -1,4 +1,6 @@
-const { Tweet, Like } = require('../models/like'); // Adjust the path to your models' index file
+const express = require('express');
+const router = express.Router();
+const { Tweet, Like } = require('../models'); // Corrected import path
 
 const likeTweet = async (req, res) => {
   try {
@@ -20,9 +22,12 @@ const likeTweet = async (req, res) => {
       return res.status(409).json({ message: 'You already liked this tweet' });
     }
 
+    // If the like was successfully created
     res.status(201).json({ message: 'Tweet liked successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Liking tweet failed' });
   }
 };
+
+module.exports = likeTweet;

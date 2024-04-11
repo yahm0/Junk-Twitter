@@ -4,7 +4,7 @@ const sequelize = require('../config/connection'); // Sequelize connection is in
 class Tweet extends Model {}
 
 Tweet.init({
-    // model attributes that correspond to the tweet table fields
+    // Model attributes that correspond to the tweet table fields
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -18,14 +18,9 @@ Tweet.init({
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'users', 
+        model: 'users', // This should be the table name when using custom model names or non-conventional setups
         key: 'id'
       }
-    },
-    created_at: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW
     }
   }, {
     sequelize,
@@ -35,4 +30,4 @@ Tweet.init({
     tableName: 'tweets' 
   });
 
-  module.exports = Tweet;
+module.exports = Tweet;

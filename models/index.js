@@ -1,30 +1,34 @@
 const Sequelize = require('sequelize');
-const sequelize = require('../config/connection');
+const sequelize = require('../config/connection'); 
 
-// Import models
-const userModel = require('./User');
-const tweetModel = require('./tweet');
-const likeModel = require('./like');
+// Import model files
+const User = require('./User');
+const Like = require('./Like');
+const Tweet = require('./Tweet');
 
-// Initialize models
-const User = userModel(sequelize, Sequelize.DataTypes);
-const Tweet = tweetModel(sequelize, Sequelize.DataTypes);
-const Like = likeModel(sequelize, Sequelize.DataTypes);
+// Define model associations
+User.hasMany(Tweet, { foreignKey: 'user_id', as: 'Tweets' });
+Tweet.belongsTo(User, { foreignKey: 'user_id', as: 'User' });
 
-// Define associations
-User.hasMany(Tweet, { foreignKey: 'user_id' });
-Tweet.belongsTo(User, { foreignKey: 'user_id' });
+User.hasMany(Like, { foreignKey: 'user_id', as: 'Likes' });
+Like.belongsTo(User, { foreignKey: 'user_id', as: 'User' });
 
-Tweet.hasMany(Like, { foreignKey: 'tweet_id' });
-Like.belongsTo(Tweet, { foreignKey: 'tweet_id' });
+Tweet.hasMany(Like, { foreignKey: 'tweet_id', as: 'Likes' });
+Like.belongsTo(Tweet, { foreignKey: 'tweet_id', as: 'Tweet' });
 
-User.hasMany(Like, { foreignKey: 'user_id' });
-Like.belongsTo(User, { foreignKey: 'user_id' });
+// Sync all models with database
+sequelize.sync({ force: false })  // `force: true` will drop and recreate tables
+  .then(() => {
+    console.log("Models are synchronized with the database!");
+  })
+  .catch((error) => {
+    console.error("Error synchronizing models with the database:", error);
+  });
 
-// Export models and Sequelize for use in other files
+// Exporting the models and the sequelize connection
 module.exports = {
-    User,
-    Tweet,
-    Like,
-    sequelize
-  };
+  User,
+  Like,
+  Tweet,
+  sequelize
+};

@@ -1,18 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const database = require('../models/User');
-// const path = require('path');
+const bcrypt = require('bcryptjs'); // For hashing passwords
+const User = require('../models/User'); // Assuming User model is exported directly from the User.js file
+const { authenticateUser } = require('./authController'); // Adjusted the path if necessary
 
-// Set the views directory
-// app.set('views', path.join(__dirname, 'views'));
-
-// Route for the root path ("/")
+// Route to serve the main page
 router.get('/', (req, res) => {
-    // You can render a specific template or redirect to another route here
-    // For example:
-    res.render('main'); // Render a template
-    // or
-    // res.redirect('/login'); // Redirect to another route
+    if (req.session.user) {
+        res.redirect('/homepage'); // Redirect to homepage if logged in
+    } else {
+        res.redirect('/login'); // Redirect to login if not logged in
+    }
 });
 
 // Route for rendering the login page
@@ -20,57 +18,66 @@ router.get('/login', (req, res) => {
     res.render('partials/login');
 });
 
-// Route for rendering the sign-up page
-router.get('/signup', (req, res) => {
-    res.render('partials/signup'); // Assumes you have a 'signup.handlebars' view
-});
-
-// Route for rendering the sign-up page
-router.get('/card', (req, res) => {
-    res.render('partials/card'); // Assumes you have a 'signup.handlebars' view
-});
-
-// Route for rendering the sign-up page
-router.get('/homepage', (req, res) => {
-    res.render('partials/homepage'); // Assumes you have a 'signup.handlebars' view
-});
-
 // Route for handling login form submission
 router.post('/login', async (req, res) => {
     try {
-        // Login logic...
-        if (userData) {
+        const { email, password } = req.body;
+        const user = await authenticateUser(email, password);
+        if (user) {
+            req.session.user = user; // Store user details in session
             res.redirect('/homepage');
         } else {
-            res.render('login', { error: 'Invalid username or password' });
+            res.status(401).render('partials/login', { error: "Invalid email or password." });
         }
     } catch (error) {
         console.error('Error logging in user:', error);
-        res.status(500).json({ error: 'An unexpected error occurred' });
+        res.status(500).send('Server error');
     }
+});
+
+// Route to serve the signup page
+router.get('/signup', (req, res) => {
+    res.render('partials/signup', {
+        layout: 'main'  // Assuming you use a layout file named 'main.handlebars'
+    });
 });
 
 // Route for handling sign-up form submission
 router.post('/signup', async (req, res) => {
     try {
-        // Extract form data from request body
         const { username, email, password } = req.body;
-        
-        // Here you would typically hash the password and store the new user in your database
-        // For demonstration, let's pretend we're calling a 'create' method on your user model
-        const newUser = await database.User.create({
+        const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
+        const newUser = await User.create({
             username,
             email,
-            password: hashPassword(password), // Ensure you hash passwords before storing!
+            password: hashedPassword,
         });
-
-        // Redirect to the login page after successful sign-up, or to the homepage, etc.
-        res.redirect('/login');
+        res.redirect('/login'); // Redirect to login after successful sign-up
     } catch (error) {
         console.error('Error signing up user:', error);
-        // Render the sign-up page again with an error message
-        res.render('signup', { error: 'An error occurred during sign-up. Please try again.' });
+        res.status(500).render('partials/signup', { error: 'An error occurred during sign-up. Please try again.' });
     }
+});
+
+// Route to serve the homepage
+router.get('/homepage', (req, res) => {
+    if (req.session.user) {
+        res.render('partials/homepage', { user: req.session.user });
+    } else {
+        res.redirect('/login');
+    }
+});
+
+// Route to handle user logout
+router.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error logging out:', err);
+            res.status(500).send('Logout failed.');
+        } else {
+            res.redirect('/login');
+        }
+    });
 });
 
 module.exports = router;

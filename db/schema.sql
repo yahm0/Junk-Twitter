@@ -1,5 +1,6 @@
 DROP DATABASE IF EXISTS junk;
 CREATE DATABASE junk;
+USE junk;
 
    -- Stores user information. Each user has a unique username and email.
    -- 'password' should be securely hashed before being stored.

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Junk Twitter - Homepage</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        .column-container {
+            display: flex;
+            flex-direction: row;
+            min-height: 100vh;
+        }
+        .column {
+            flex: 1;  /* Each column takes equal width by default */
+            padding: 20px;  /* Padding for content */
+        }
+        .column-middle {
+            flex: 2;  /* Middle column takes double the space of side columns */
+        }
+        .full-height-image {
+            height: 100vh;
+            width: 100vw;
+            object-fit: cover;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .content {
+            position: relative;
+            z-index: 10;
+        }
+        .card, nav {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body class="font-mono">
+    <header class="flex justify-between items-center p-4 bg-yellow-900">
+        <h1 class="text-xl font-bold">Junk Twitter</h1>
+        <nav>
+            {{#if logged_in}}
+                <a href="/profile">Profile</a> |
+                <button id="logout">Logout</button>
+            {{else}}
+                <a href="/login" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</a>
+                <a href="/signup" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Sign Up</a>
+            {{/if}}
+        </nav>
+    </header>
+
+    <div class="column-container">
+        <div class="column"></div> <!-- Left Column -->
+        <div class="column column-middle"></div> <!-- Middle Column -->
+        <div class="column"></div> <!-- Right Column -->
+    </div>
+
+    <footer class="p-4 bg-yellow-900">
+        <!-- Footer Content -->
+    </footer>
+
+    {{#if logged_in}}
+        <script src="/js/logout.js"></script>
+    {{/if}}
+
+</body>
+</html>
