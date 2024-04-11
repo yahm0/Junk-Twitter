@@ -5,6 +5,11 @@ const sequelize = new Sequelize('database', 'username', 'password', {
 });
 
 // Import models
-const UserModel = require('./User');
-const TweetModel = require('./tweet');
-const LikeModel = require('./like');
+const userModel = require('./User');
+const tweetModel = require('./tweet');
+const likeModel = require('./like');
+
+// Initialize models
+const User = userModel(sequelize, Sequelize.DataTypes);
+const tweet = tweetModel(sequelize, Sequelize.DataTypes);
+const like = likeModel(sequelize, Sequelize.DataTypes);
