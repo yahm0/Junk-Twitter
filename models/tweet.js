@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../db/schema.sql'); // Sequelize connection is initialized
+const sequelize = require('../config/connection'); // Sequelize connection is initialized
 
 class Tweet extends Model {}
 

@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../db/schema.sql');
+const sequelize = require('../config/connection');
 
 class Like extends Model {}
 
