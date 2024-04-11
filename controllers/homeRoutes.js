@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const database = require('../models/User');
+const path = require('path');
 
 // Set the views directory
-app.set('views', path.join(__dirname, 'views'));
+// app.set('views', path.join(__dirname, 'views'));
 
 // Route for the root path ("/")
 router.get('/', (req, res) => {
