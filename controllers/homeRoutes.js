@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 
 // Route for rendering the login page
 router.get('/login', (req, res) => {
-    res.render('partials/login');
+    res.render('login');
 });
 
 // Route for handling login form submission
@@ -27,7 +27,7 @@ router.post('/login', async (req, res) => {
             req.session.user = user; // Store user details in session
             res.redirect('/homepage');
         } else {
-            res.status(401).render('partials/login', { error: "Invalid email or password." });
+            res.status(401).render('login', { error: "Invalid email or password." });
         }
     } catch (error) {
         console.error('Error logging in user:', error);
@@ -37,7 +37,7 @@ router.post('/login', async (req, res) => {
 
 // Route to serve the signup page
 router.get('/signup', (req, res) => {
-    res.render('partials/signup', {
+    res.render('signup', {
         layout: 'main'  // Assuming you use a layout file named 'main.handlebars'
     });
 });
@@ -52,17 +52,17 @@ router.post('/signup', async (req, res) => {
             email,
             password: hashedPassword,
         });
-        res.redirect('/login'); // Redirect to login after successful sign-up
+        res.redirect('/homepage'); // Redirect to homepage after successful sign-up
     } catch (error) {
         console.error('Error signing up user:', error);
-        res.status(500).render('partials/signup', { error: 'An error occurred during sign-up. Please try again.' });
+        res.status(500).render('signup', { error: 'An error occurred during sign-up. Please try again.' });
     }
 });
 
 // Route to serve the homepage
 router.get('/homepage', (req, res) => {
     if (req.session.user) {
-        res.render('partials/homepage', { user: req.session.user });
+        res.render('homepage', { user: req.session.user });
     } else {
         res.redirect('/login');
     }

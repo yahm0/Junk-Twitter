@@ -40,8 +40,8 @@
                 <a href="/profile">Profile</a> | 
                 <button id="logout">Logout</button>
             {{else}}
-                <a href="./partials/login" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</a>
-                <a href="./partials/signup" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Sign Up</a>
+                <a href="./login" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</a>
+                <a href="./signup" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Sign Up</a>
             {{/if}}
         </nav>
     </header>
@@ -72,6 +72,8 @@
             {{/each}}
         </div>
     </div>
+
+    {{{body}}}
 
     <footer class="p-4 bg-yellow-900">
         <!-- Footer Content -->
