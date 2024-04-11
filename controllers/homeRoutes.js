@@ -2,21 +2,30 @@ const { Router } = require('express');
 const database = require('../models/User');
 const router = Router();
 
-// Login route
-router.post('/login', async (req, res) => {
-    try {
-        const userData = await database.getUserData(req.body.username, req.body.password);
-        
-        if (!userData) {
-            return res.status(401).json({ error: 'Invalid username or password' });
-        }
+// Render login page
+router.get('/login', (req, res) => {
+    res.render('login'); // Renders login.handlebars
+});
 
-        req.session.user = userData;
-        res.json({ message: 'Logged in successfully', user: userData });
-    } catch (error) {
-        console.error('Error logging in:', error);
-        res.status(500).json({ error: 'An unexpected error occurred' });
+// Handle login logic, redirect if successful
+router.post('/login', async (req, res) => {
+    // Login logic...
+    if (userData) {
+        res.redirect('/homepage'); // Redirect to homepage on successful login
+    } else {
+        res.render('login', { error: 'Invalid username or password' }); // Re-render login page with error
     }
+});
+
+// Render registration page
+router.get('/register', (req, res) => {
+    res.render('register'); // Renders register.handlebars
+});
+
+// Handle registration logic
+router.post('/register', async (req, res) => {
+    // Registration logic...
+    res.redirect('/login'); // Redirect to login page after successful registration
 });
 
 // Logout route

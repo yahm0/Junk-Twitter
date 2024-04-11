@@ -2,16 +2,23 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-const homeRoutes = require('./controllers/homeRoutes');
 const helpers = require('./utils/helpers');
 const path = require('path');
 const sequelize = require('./config/connection');
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
+// const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
+const routes = require('./controllers/index');
 
 const app = express();
 
 // Set up Handlebars.js engine with custom helpers
 const hbs = exphbs.create({ helpers });
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true
+}));
 
 app.use(cookieParser());
 const sess = {
@@ -22,13 +29,13 @@ const sess = {
     secure: false,
     sameSite: 'strict',
   },
-  resave: false,
-  saveUninitialized: true,
-  store: new SequelizeStore({
-    db: sequelize
-  })
+  // resave: false,
+  // saveUninitialized: true,
+  // store: new SequelizeStore({
+  //   db: sequelize
+  // })
 };
-app.use(session(sess));
+// app.use(session(sess));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -37,12 +44,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
-// Routes
-app.use('/', homeRoutes);
+// Set the directory where your views are located
+app.set('views', path.join(__dirname, 'views'));
 
-// Default route
-app.get('/', (req, res) => res.send(req.session.username ? `Hello, ${req.session.username}!` : 'Welcome!'));
+// // Default route
+app.get('/', (req, res) => {
+  res.render('./layouts/main', { username: req.session.username });
+});
 
+app.use('/', routes);
 
 // Start server
 const PORT = process.env.PORT || 3001;
