@@ -1,41 +1,38 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Since there's no specific ID, ensure you're targeting the right form, especially if there are multiple forms on the page.
-    const loginForm = document.querySelector('form'); // More specific selector recommended if possible
+    const loginForm = document.querySelector('form');
 
     loginForm.addEventListener('submit', function (e) {
-        e.preventDefault(); // Prevent the default form submission behavior
+        e.preventDefault();
 
-        // Grab the data from the input fields
         const email = document.getElementById('email-login').value;
         const password = document.getElementById('password-login').value;
 
-        // Construct the data object to send
-        const loginData = {
-            email,
-            password,
-        };
-
-        // Make an AJAX request to your server's login endpoint
         fetch('/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(loginData),
+            body: JSON.stringify({ email, password }),
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Login failed');
-            }
-            return response.json(); // or .text() if you're not sending JSON response
-        })
+        .then(response => response.json())
         .then(data => {
-            // Handle success, such as redirecting to the homepage or showing a success message
-            window.location.href = '/homepage'; // Redirect to homepage on successful login
+            if (data.success) {
+                window.location.href = '/homepage';
+            } else {
+                displayErrorMessage(data.message || 'Login failed, please try again.');
+            }
         })
         .catch(error => {
             console.error('Error during login:', error);
-            // Optionally, display an error message on the login form
+            displayErrorMessage('An error occurred, please try again later.');
         });
     });
+
+    function displayErrorMessage(message) {
+        const messageElement = document.querySelector('#loginErrorMessage');
+        if (messageElement) {
+            messageElement.textContent = message;
+            messageElement.style.display = 'block';
+        }
+    }
 });

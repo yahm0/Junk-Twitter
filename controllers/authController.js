@@ -1,25 +1,25 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
-const express = require('express');
-const router = express.Router();
 
-// Function to authenticate a user
 exports.authenticateUser = async (email, password) => {
     try {
-        // Retrieve the user by their email (consider case sensitivity based on your DB)
-        const user = await User.findOne({ where: { email: email.toLowerCase() } });
+        // Normalize email to lowercase before querying the database
+        const normalizedEmail = email.toLowerCase();
+        const user = await User.findOne({ where: { email: normalizedEmail } });
+        
         if (!user) {
-            console.log("User not found for email:", email); // For debugging, consider removing for production
+            // Avoid logging emails or other sensitive information in production
+            console.log("User not found for email"); // Consider more secure logging practices
             return null;
         }
 
-        // Compare the provided password with the hashed password stored in the database
         const isMatch = await bcrypt.compare(password, user.password);
         if (isMatch) {
-            console.log("Password match for user:", email); // For debugging, consider removing for production
+            // Success case, return the user object
             return user;
         } else {
-            console.log("Password mismatch for user:", email); // For debugging, consider removing for production
+            // Password mismatch case
+            console.log("Password mismatch for user"); // Consider more secure logging practices
             return null;
         }
     } catch (error) {

@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 
 class User extends Model {}
 
@@ -36,12 +36,12 @@ User.init({
     timestamps: true,
     underscored: true,
     tableName: 'users',
-    hooks: {
-      beforeCreate: async (user) => {
-        const hashedPassword = await bcrypt.hash(user.password, 10);
-        user.password = hashedPassword;
-      }
-    }
+    // hooks: {
+    //   beforeCreate: async (user) => {
+    //     const hashedPassword = await bcrypt.hash(user.password, 10);
+    //     user.password = hashedPassword;
+    //   }
+    // }
 });
 
 module.exports = User;
