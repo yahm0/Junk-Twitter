@@ -25,7 +25,13 @@ router.post('/login', async (req, res) => {
         const user = await authenticateUser(email, password);
         if (user) {
             req.session.user = user; // Store user details in session
-            res.redirect('/homepage');
+            req.session.save(err => { // Explicitly save the session before redirect
+                if (err) {
+                    throw err; // or handle error appropriately
+                }
+                res.redirect('/homepage');
+            });
+        
         } else {
             res.status(401).render('login', { error: "Invalid email or password." });
         }

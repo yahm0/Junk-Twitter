@@ -1,17 +1,20 @@
 <!-- Login Section -->
-<div class="flex flex-col items-center m-10 py-10 font-mono bg-gray-50">
+<div class="flex flex-col items-center m-10 py-10 font-mono">
     <div class="w-full text-center">
         <h2 class="p-2 rounded font-bold text-2xl">Login</h2>
     </div>
 
-    <form class="w-full max-w-md">
+    <!-- Updated form with action and method attributes -->
+    <form class="w-full max-w-md" action="/login" method="POST">
         <div class="flex flex-col items-center mb-2 p-2 rounded font-bold text-lg">
             <label for="email-login">email:</label>
-            <input class="mt-1 px-3 py-2 bg-gray-200 rounded" type="text" id="email-login" />
+            <!-- Added name attribute for email -->
+            <input class="mt-1 px-3 py-2 bg-gray-200 rounded" type="text" id="email-login" name="email" />
         </div>
         <div class="flex flex-col items-center mb-2 p-2 rounded font-bold text-lg">
             <label for="password-login">password:</label>
-            <input class="mt-1 px-3 py-2 bg-gray-200 rounded" type="password" id="password-login" />
+            <!-- Added name attribute for password -->
+            <input class="mt-1 px-3 py-2 bg-gray-200 rounded" type="password" id="password-login" name="password" />
         </div>
         <div class="flex flex-col items-center mb-2 p-2 bg-yellow-800 hover:bg-yellow-700 rounded text-md">
             <button class="btn btn-primary w-full" type="submit">Login</button>
