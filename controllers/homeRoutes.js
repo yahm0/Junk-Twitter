@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs'); // For hashing passwords
+const bcrypt = require('bcrypt'); // For hashing passwords
 const User = require('../models/User'); // Assuming User model is exported directly from the User.js file
 const { authenticateUser } = require('./authController'); // Adjusted the path if necessary
 
@@ -44,15 +44,16 @@ router.get('/signup', (req, res) => {
 
 // Route for handling sign-up form submission
 router.post('/signup', async (req, res) => {
+    const { username, email, password } = req.body;
     try {
-        const { username, email, password } = req.body;
-        const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
-        const newUser = await User.create({
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await User.create({
             username,
-            email,
+            email: email.toLowerCase(), // Ensure email is stored in lowercase
             password: hashedPassword,
         });
-        res.redirect('/homepage'); // Redirect to homepage after successful sign-up
+        req.session.message = "Signup successful. Please login."; // Provide feedback for successful signup
+        res.redirect('/login');
     } catch (error) {
         console.error('Error signing up user:', error);
         res.status(500).render('signup', { error: 'An error occurred during sign-up. Please try again.' });
