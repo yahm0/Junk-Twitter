@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Grab the data from the form using the specific IDs
         const userData = {
-            username: document.getElementById('name-signup').value, // Changed from 'name' to 'username'
+            username: document.getElementById('name-signup').value, // Ensure the ID matches your HTML
             email: document.getElementById('email-signup').value,
             password: document.getElementById('password-signup').value,
         };
@@ -28,15 +28,24 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             console.log(data);
             if (data.success) {
-                // Redirect to login or another page on success
-                window.location.href = '/login';
+                // Redirect to homepage upon successful signup and automatic login
+                window.location.href = '/homepage';
             } else {
                 // Optionally handle errors or display messages
-                alert(data.message || 'Something went wrong.');
+                displayErrorMessage(data.message || 'Something went wrong. Please try again.');
             }
         })
         .catch((error) => {
             console.error('Error:', error);
+            displayErrorMessage('An error occurred during signup. Please try again later.');
         });
     });
+
+    function displayErrorMessage(message) {
+        const messageElement = document.getElementById('signupErrorMessage');
+        if (messageElement) {
+            messageElement.textContent = message;
+            messageElement.style.display = 'block'; // Ensure there's an element with id 'signupErrorMessage'
+        }
+    }
 });

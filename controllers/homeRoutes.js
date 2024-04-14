@@ -55,16 +55,27 @@ router.post('/signup', async (req, res) => {
     const { username, email, password } = req.body;
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        await User.create({
+        const newUser = await User.create({
             username,
             email: email.toLowerCase(), // Ensure email is stored in lowercase
             password: hashedPassword,
         });
-        req.session.message = "Signup successful. Please login."; // Provide feedback for successful signup
-        res.redirect('/login');
+        req.session.user = newUser; // Log in the new user automatically
+        req.session.save(err => {
+            if (err) {
+                console.error('Session save error:', err);
+                res.json({ success: false, message: 'Session save failed.' });
+            } else {
+                res.json({ success: true }); // Indicate success and handle redirection client-side
+            }
+        });
     } catch (error) {
         console.error('Error signing up user:', error);
-        res.status(500).render('signup', { error: 'An error occurred during sign-up. Please try again.' });
+        if (error.name === 'SequelizeUniqueConstraintError') {
+            res.status(409).json({ success: false, message: 'Email already exists.' });
+        } else {
+            res.status(500).json({ success: false, message: 'An error occurred during sign-up. Please try again.' });
+        }
     }
 });
 
