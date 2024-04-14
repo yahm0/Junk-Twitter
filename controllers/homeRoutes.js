@@ -25,21 +25,23 @@ router.post('/login', async (req, res) => {
         const user = await authenticateUser(email, password);
         if (user) {
             req.session.user = user; // Store user details in session
-            req.session.save(err => { // Explicitly save the session before redirect
+            req.session.save(err => { // Explicitly save the session before sending response
                 if (err) {
-                    throw err; // or handle error appropriately
+                    console.error('Session save error:', err);
+                    res.json({ success: false, message: 'Session save failed.' });
+                } else {
+                    res.json({ success: true }); // Indicate success and handle redirection client-side
                 }
-                res.redirect('/homepage');
             });
-        
         } else {
-            res.status(401).render('login', { error: "Invalid email or password." });
+            res.status(401).json({ success: false, message: "Invalid email or password." });
         }
     } catch (error) {
         console.error('Error logging in user:', error);
-        res.status(500).send('Server error');
+        res.status(500).json({ success: false, message: 'Server error' });
     }
 });
+
 
 // Route to serve the signup page
 router.get('/signup', (req, res) => {

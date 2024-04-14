@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                window.location.href = '/homepage';
+                window.location.href = '/homepage'; // Redirect to homepage on success
             } else {
                 displayErrorMessage(data.message || 'Login failed, please try again.');
             }
