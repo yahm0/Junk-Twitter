@@ -42,7 +42,6 @@ router.post('/login', async (req, res) => {
     }
 });
 
-
 // Route to serve the signup page
 router.get('/signup', (req, res) => {
     res.render('signup', {

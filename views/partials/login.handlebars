@@ -7,20 +7,20 @@
     <!-- Updated form with action and method attributes -->
     <form class="w-full max-w-md" action="/login" method="POST">
         <div class="flex flex-col items-center mb-2 p-2 rounded font-bold text-lg">
-            <label for="email-login">email:</label>
+            <label for="email-login">Email:</label>
             <!-- Added name attribute for email -->
             <input class="mt-1 px-3 py-2 bg-gray-200 rounded" type="text" id="email-login" name="email" />
         </div>
         <div class="flex flex-col items-center mb-2 p-2 rounded font-bold text-lg">
-            <label for="password-login">password:</label>
+            <label for="password-login">Password:</label>
             <!-- Added name attribute for password -->
             <input class="mt-1 px-3 py-2 bg-gray-200 rounded" type="password" id="password-login" name="password" />
         </div>
-        <div class="flex flex-col items-center mb-2 p-2 bg-yellow-800 hover:bg-yellow-700 rounded text-md">
+        <div class="flex flex-col items-center mb-2 p-2 bg-yellow-800 font-bold hover:bg-yellow-700 rounded text-md">
             <button class="btn btn-primary w-full" type="submit">Login</button>
         </div>
     </form>
-    <div class="flex flex-col items-center font-bold" id="loginErrorMessage" style="display: none; color: black;"></div>
+    <div class="flex flex-col items-center font-bold text-red-700 bg-black" id="loginErrorMessage"></div>
 </div>
 
 <script src="./js/login.js"></script>

@@ -31,11 +31,11 @@
     </style>
 </head>
 
-<body class="flex flex-col justify-between min-h-screen gap-8 columns-3 font-mono">
+<body class="flex flex-col justify-between min-h-screen columns-3 font-mono">
 
-    <header class="flex justify-between items-center p-4 bg-yellow-900">
-        <h1 class="text-xl font-bold">Junk Twitter</h1>
-        <nav>
+    <header class="flex justify-between p-4 items-center bg-yellow-800">
+        <h1 class="pl-10 text-2xl font-bold">Junk Twitter</h1>
+        <nav class="bg-yellow-800">
             {{#if logged_in}}
                 <a href="/profile">Profile</a> | 
                 <button id="logout">Logout</button>
@@ -49,7 +49,7 @@
     <!-- Background Image -->
     <img src="https://t4.ftcdn.net/jpg/01/23/78/05/360_F_123780524_vqBvLrVx75U7QV5JuUNeigyAFaqLDFHy.jpg" alt="Landfill Image" class="full-height-image">
 
-    <div class="content">
+    {{!-- <div class="content">
         <div id="tweetsContainer">
             {{#each tweets}}
             <div class="card bg-white shadow-lg rounded-lg p-6 mb-4">
@@ -71,11 +71,11 @@
             </div>
             {{/each}}
         </div>
-    </div>
+    </div> --}}
 
     {{{body}}}
 
-    <footer class="p-4 bg-yellow-900">
+    <footer class="p-4 bg-yellow-800">
         <!-- Footer Content -->
     </footer>
 

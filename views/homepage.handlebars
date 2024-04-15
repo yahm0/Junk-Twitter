@@ -41,24 +41,36 @@
     </style>
 </head>
 <body class="font-mono">
-    <header class="flex justify-between items-center p-4 bg-yellow-900">
-        <h1 class="text-xl font-bold">Junk Twitter</h1>
-        <nav>
-            {{#if logged_in}}
-                <a href="/profile">Profile</a> |
-                <button id="logout">Logout</button>
-            {{else}}
-                <a href="/login" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</a>
-                <a href="/signup" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Sign Up</a>
-            {{/if}}
-        </nav>
-    </header>
 
-    <div class="column-container">
-        <div class="column"></div> <!-- Left Column -->
-        <div class="column column-middle"></div> <!-- Middle Column -->
-        <div class="column"></div> <!-- Right Column -->
-    </div>
+<div class="column-container gap-20">
+    <div class="column bg-yellow-800 flex flex-col items-center pt-8 pb-4 max-w-xs mx-auto space-y-4"> <!-- Left Column -->
+        <!-- Container to control width -->
+        <div class="w-full flex flex-col items-center space-y-4">
+            <div class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center">
+                <span class="font-bold text-white">Home</span>
+            </div>
+            <a class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center items-center">
+                <span class="icon">🔔</span>
+                <span>Notifications</span>
+            </a>
+            <a class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center items-center">
+                <span class="icon">📝</span>
+                <span>Lists</span>
+            </a>
+            <a class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center items-center">
+                <span class="icon">👤</span>
+                <span>Profile</span>
+            </a>
+            <a class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center items-center">
+                <span class="icon">⋮</span>
+                <span>More</span>
+            </a>
+        </div>
+    </div><!-- Left Column ends -->
+    <div class="column bg-red-700"></div> <!-- Middle Column -->
+    <div class="column bg-blue-700 max-w-xs mx-auto"></div> <!-- Right Column -->
+</div>
+
 
     <footer class="p-4 bg-yellow-900">
         <!-- Footer Content -->
