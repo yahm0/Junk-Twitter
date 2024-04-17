@@ -68,7 +68,25 @@
         </div>
     </div><!-- Left Column ends -->
     <div class="column bg-red-700"></div> <!-- Middle Column -->
-    <div class="column bg-blue-700 max-w-xs mx-auto"></div> <!-- Right Column -->
+    <div class="bg-yellow-800 flex flex-col items-center pt-8 pb-4 max-w-xs w-full  space-y-4">
+        <!-- User's username -->
+        <div class="text-white text-center w-full">
+            <h3 class="font-bold drop-shadow text-lg mb-4">Landon Beard</h3>
+        </div>
+        <!-- User's recent tweets -->
+        <div class="space-y-2">
+            {{#if user.tweets}}
+                {{#each user.tweets as |tweet|}}
+                    <div class="bg-white p-3 rounded shadow">
+                        <p>{{tweet.content}}</p> <!-- Display the tweet content -->
+                        <p class="text-gray-500 text-sm">{{tweet.timestamp}}</p> <!-- Display the tweet timestamp -->
+                    </div>
+                {{/each}}
+            {{else}}
+                <p class="text-white">No recent tweets to show.</p>
+            {{/if}}
+        </div>
+    </div><!-- Right Column -->
 </div>
 
 
