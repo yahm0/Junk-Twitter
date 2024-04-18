@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { User, Tweet } = require('../models'); // Simplified path due to index.js
+const { Tweet, User } = require('../models');
 
-const postTweet = async (req, res) => {
+// Post a tweet
+router.post('/', async (req, res) => {
   try {
-    const { userId, content } = req.body;
+    const { content } = req.body;
+    const userId = req.session.user.id; // Replace with your session user ID logic
 
     // Optionally, validate the user exists
     const userExists = await User.findByPk(userId);
@@ -18,14 +20,12 @@ const postTweet = async (req, res) => {
       user_id: userId // Ensure this matches the foreign key column name in your database
     });
 
-    // Send a successful response back with the new tweet's ID
-    res.status(201).json({ message: 'Tweet posted successfully', tweetId: newTweet.id });
+    // Send a successful response back with the new tweet object
+    res.status(201).json({ tweet: newTweet }); // This sends the whole tweet object
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Posting tweet failed' });
   }
-};
+});
 
-// Export the controller function to be used in route definitions
-module.exports = postTweet;
-
+module.exports = router;

@@ -1,10 +1,10 @@
-require('dotenv').config(); // Import and configure dotenv at the top
-const path = require('path');
 const express = require('express');
+const path = require('path');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
 const cookieParser = require('cookie-parser');
 const routes = require('./controllers/index');
+const helpers = require('./utils/helpers'); // Import your custom helpers
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -12,7 +12,8 @@ const PORT = process.env.PORT || 3001;
 // Set up Handlebars view engine
 app.engine('handlebars', exphbs.create({
     defaultLayout: 'main', // assuming a main layout file for Handlebars
-    extname: '.handlebars' // custom extension for Handlebars files
+    extname: '.handlebars', // custom extension for Handlebars files
+    helpers: helpers // include your custom helpers here
 }).engine);
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));

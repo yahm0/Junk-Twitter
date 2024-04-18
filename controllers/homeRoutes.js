@@ -1,8 +1,39 @@
 const express = require('express');
 const router = express.Router();
+const Tweet = require('../models/tweet'); // Import the Tweet model
 const bcrypt = require('bcrypt'); // For hashing passwords
 const User = require('../models/User'); // Assuming User model is exported directly from the User.js file
 const { authenticateUser } = require('./authController'); // Adjusted the path if necessary
+
+// Route to serve the homepage
+router.get('/homepage', async (req, res) => {
+    if (req.session.user) {
+        try {
+            // Fetch tweets from the database that belong to the logged-in user
+            const tweets = (await Tweet.findAll({
+                include: [{
+                    model: User,
+                    as: 'User',
+                    attributes: ['username']
+                }],
+                order: [['createdAt', 'DESC']]
+            })).map(tweet => tweet.get({ plain: true })); // This converts Sequelize instances to plain objects.
+
+            res.render('homepage', {
+                user: req.session.user, // Pass the entire user session
+                tweets: tweets, // Pass the tweets array
+                logged_in: true // You can pass this to indicate that the user is logged in
+            });
+
+        } catch (error) {
+            console.error('Failed to fetch tweets:', error);
+            res.status(500).send('Error fetching tweets');
+        }
+    } else {
+        res.redirect('/login');
+    }
+});
+
 
 // Route to serve the main page
 router.get('/', (req, res) => {
@@ -75,15 +106,6 @@ router.post('/signup', async (req, res) => {
         } else {
             res.status(500).json({ success: false, message: 'An error occurred during sign-up. Please try again.' });
         }
-    }
-});
-
-// Route to serve the homepage
-router.get('/homepage', (req, res) => {
-    if (req.session.user) {
-        res.render('homepage', { user: req.session.user });
-    } else {
-        res.redirect('/login');
     }
 });
 

@@ -1,33 +1,35 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/connection'); // Sequelize connection is initialized
+const sequelize = require('../config/connection');
 
+// Define the Tweet class that extends Model
 class Tweet extends Model {}
 
+// Initialize the model's schema and configuration
 Tweet.init({
-    // Model attributes that correspond to the tweet table fields
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
     },
     content: {
-      type: DataTypes.TEXT,
-      allowNull: false
+        type: DataTypes.TEXT,
+        allowNull: false,
     },
     user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'users', // This should be the table name when using custom model names or non-conventional setups
-        key: 'id'
-      }
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'users', // This references the 'users' table
+            key: 'id'
+        }
     }
-  }, {
+}, {
     sequelize,
-    modelName: 'Tweet',
-    timestamps: true, // Enables Sequelize to manage createdAt and updatedAt
-    underscored: true, // Ensures the automatic attributes follow the snake_case convention
-    tableName: 'tweets' 
-  });
+    modelName: 'tweet',
+    tableName: 'tweets',
+    timestamps: true,
+    underscored: true,
+});
 
 module.exports = Tweet;
