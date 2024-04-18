@@ -110,13 +110,14 @@ router.post('/signup', async (req, res) => {
 });
 
 // Route to handle user logout
-router.get('/logout', (req, res) => {
-    req.session.destroy((err) => {
+// Assuming this is inside your router setup file, such as authRoutes.js
+router.post('/logout', (req, res) => {
+    req.session.destroy(err => {
         if (err) {
-            console.error('Error logging out:', err);
-            res.status(500).send('Logout failed.');
+            console.error('Failed to destroy the session during logout:', err);
+            res.status(500).send({ message: 'Failed to log out, please try again.' });
         } else {
-            res.redirect('/login');
+            res.send({ message: 'Logged out successfully' });
         }
     });
 });
