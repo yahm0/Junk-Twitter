@@ -5,7 +5,7 @@ const { Sequelize } = require('sequelize');
 const dbUrl = process.env.JAWSDB_URL;
 
 // Create a Sequelize instance using the database URL from JawsDB
-const sequelize = new Sequelize(dbUrl, {
+const sequelize = new Sequelize(dbUrl || process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
   dialect: 'mysql',  // Specify the dialect
   logging: console.log,  // Enable SQL logging, set to false to disable
   pool: {

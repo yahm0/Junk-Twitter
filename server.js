@@ -3,7 +3,7 @@ const path = require('path');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
 const cookieParser = require('cookie-parser');
-const routes = require('./controllers/index');
+const routes = require('./controllers');
 const helpers = require('./utils/helpers'); // Import your custom helpers
 
 const app = express();
