@@ -1,19 +1,18 @@
+-- Drops the existing 'junk' database if it exists and creates a new one.
 DROP DATABASE IF EXISTS junk;
 CREATE DATABASE junk;
 USE junk;
 
-   -- Stores user information. Each user has a unique username and email.
-   -- 'password' should be securely hashed before being stored.
+-- Table for storing user information with appropriate timestamps for creation and updates.
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-    -- Contains all tweets. Each tweet is linked to a user.
+-- Table for storing tweets. Each tweet is associated with a user via a foreign key.
+-- Timestamps are managed automatically for each tweet created.
 CREATE TABLE tweets (
     id INT AUTO_INCREMENT PRIMARY KEY,
     content TEXT NOT NULL,
@@ -22,8 +21,8 @@ CREATE TABLE tweets (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-
-    -- Tracks likes and dislikes for tweets. A user can like or dislike a tweet once.
+-- Table for tracking likes and dislikes on tweets. Each user can react to a tweet once.
+-- Includes a unique index to ensure a user can only like or dislike a particular tweet once.
 CREATE TABLE likes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     tweet_id INT NOT NULL,

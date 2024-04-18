@@ -26,12 +26,15 @@ User.init({
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [8, 100], // Minimum and maximum length
+        len: [8, 100] // Minimum and maximum length
       }
     }
 }, {
     sequelize,
     modelName: 'User',
+    timestamps: false, // Explicitly enable timestamps
+    // createdAt: 'createdAt',
+    // updatedAt: 'updatedAt'
 });
 
 module.exports = User;
