@@ -1,0 +1,67 @@
+<div class="column-container gap-20">
+    <div class="column bg-yellow-800 flex flex-col items-center pt-8 pb-4 max-w-xs mx-auto space-y-4"> <!-- Left Column -->
+        <!-- Container to control width -->
+        <div class="w-full flex flex-col items-center space-y-4">
+            <div class="w-full bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center">
+                <span class="font-bold text-white">Home</span>
+            </div>
+            <a class="w-full bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center items-center">
+                <span class="icon">🔔</span>
+                <span>Notifications</span>
+            </a>
+            <a class="w-full bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center items-center">
+                <span class="icon">📝</span>
+                <span>Lists</span>
+            </a>
+            <a class="w-full bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center items-center">
+                <span class="icon">👤</span>
+                <span>Profile</span>
+            </a>
+            <a class="w-full bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center items-center">
+                <span class="icon">⋮</span>
+                <span>More</span>
+            </a>
+        </div>
+    </div><!-- Left Column ends -->
+
+    <!-- Middle Column -->
+    <div class="column flex-grow p-4 space-y-6 column-middle">
+        <!-- Tweet input and submit button -->
+        <div class="mb-6">
+            <textarea id="tweetInput" class="w-full p-4 text-gray-700 rounded-lg shadow-inner" placeholder="What's happening?" rows="3"></textarea>
+            <button id="tweetSubmit" class="w-full bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mt-4">Tweet</button>
+        </div>
+
+        <!-- Cards from all users -->
+        <div id="tweetsContainer" class="space-y-4">
+            {{#each tweets}}
+            <div class="card bg-white shadow rounded-lg p-6 mb-4">
+                <div class="flex flex-col">
+                    <p class="text-gray-800">{{this.content}}</p>
+                    <p class="text-sm text-gray-600">Posted on {{format_date createdAt}}</p>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div> <!-- Middle Column ends -->
+
+    <div class="bg-yellow-800 flex flex-col items-center pt-8 pb-4 max-w-xs w-full  space-y-4">
+        <!-- User's username -->
+        <div class="text-white text-center w-full">
+            <h3 class="font-bold drop-shadow text-lg mb-4">{{user.username}}</h3>
+        </div>
+        <!-- User's recent tweets -->
+        <div class="space-y-2">
+            {{#if recentTweets}}
+                {{#each recentTweets as |tweet|}}
+                    <div class="bg-white p-3 rounded shadow">
+                        <p>{{tweet.content}}</p> <!-- Display the tweet content -->
+                        <p class="text-gray-500 text-sm">{{dateFormat tweet.createdAt}}</p> <!-- Display the tweet timestamp -->
+                    </div>
+                {{/each}}
+            {{else}}
+                <p class="text-white">No recent tweets to show.</p>
+            {{/if}}
+        </div>
+    </div><!-- Right Column ends -->
+</div>

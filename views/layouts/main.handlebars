@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Junk Twitter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        .full-height-image {
+            height: 100vh;  /* Full viewport height */
+            width: 100vw;   /* Full viewport width */
+            object-fit: cover; /* Cover the entire area without stretching the image */
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1; /* Ensure the image stays in the background */
+        }
+        .content {
+            position: relative; /* Ensures content is above the background */
+            z-index: 10;
+        }
+        /* Additional styling to ensure text is visible over the image */
+        .card, nav {
+            background-color: rgba(255, 255, 255, 0.8); /* Slight transparency to see image */
+        }
+        .column-container {
+        display: flex;
+        flex-direction: row;
+        height: 100vh; /* Set to viewport height to fill the screen */
+    }
+    .column {
+        flex: 1;
+        padding: 20px;
+    }
+    .column-middle {
+        flex: 2;
+        display: flex;
+        flex-direction: column; /* Make the column a flex container */
+        overflow-y: auto; /* Enable vertical scrolling */
+        height: 100%; /* Limit height to ensure scrolling */
+    }
+    </style>
+</head>
+
+<body class="flex flex-col justify-between min-h-screen columns-3 font-mono">
+
+<header class="flex justify-between p-4 items-center bg-yellow-800">
+    <h1 class="pl-10 text-2xl font-bold">Junk Twitter</h1>
+    <nav class="bg-yellow-800">
+        {{#if logged_in}}
+            <span class="text-white font-bold py-2 px-4">{{user.username}}</span> | <!-- Display the user's username -->
+            <button id="logout" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Logout</button>
+        {{else}}
+            <a href="/login" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</a>
+            <a href="/signup" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Sign Up</a>
+        {{/if}}
+    </nav>
+</header>
+
+    <!-- Background Image -->
+    <img src="https://t4.ftcdn.net/jpg/01/23/78/05/360_F_123780524_vqBvLrVx75U7QV5JuUNeigyAFaqLDFHy.jpg" alt="Landfill Image" class="full-height-image">
+
+    {{{body}}}
+
+    <footer class="p-4 bg-yellow-800">
+        <!-- Footer Content -->
+    </footer>
+
+{{#if logged_in}}
+    <script src="/js/logout.js"></script>
+    <script src="/js/tweet.js"></script>
+{{/if}}
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!-- Signup Section -->
+<div class="flex flex-col items-center m-10 py-10 font-mono">
+    <div class="w-full text-center">
+        <h2 class="p-2 rounded font-bold text-2xl">Signup</h2>
+    </div>
+
+    <form class="w-full max-w-md">
+        <div class="flex flex-col items-center mb-2 p-2 rounded font-bold text-lg">
+            <label for="name-signup">Name:</label>
+            <input class="mt-1 px-3 py-2 bg-gray-200 rounded" type="text" id="name-signup" />
+        </div>
+        <div class="flex flex-col items-center mb-2 p-2 rounded font-bold text-lg">
+            <label for="email-signup">Email:</label>
+            <input class="mt-1 px-3 py-2 bg-gray-200 rounded" type="text" id="email-signup" />
+        </div>
+        <div class="flex flex-col items-center mb-2 p-2 rounded font-bold text-lg">
+            <label for="password-signup">Password:</label>
+            <input class="mt-1 px-3 py-2 bg-gray-200 rounded" type="password" id="password-signup" />
+        </div>
+        <div class="flex flex-col items-center mb-2 p-2 bg-yellow-900 font-bold hover:bg-yellow-800 rounded text-md">
+            <button class="btn btn-primary w-full" type="submit">Signup</button>
+        </div>
+    </form>
+    <!-- Error Message Display -->
+    <div class="flex flex-col items-center font-bold text-red-700 bg-black" id="signupErrorMessage"></div>
+</div>
+
+<script src="./js/signup.js"></script>
