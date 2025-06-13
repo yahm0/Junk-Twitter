@@ -27,4 +27,21 @@ router.post('/', async (req, res) => {
 	}
 });
 
+// Delete a tweet by id
+router.delete('/:id', async (req, res) => {
+        try {
+                const tweetId = req.params.id;
+
+                const deleted = await Tweet.destroy({ where: { id: tweetId } });
+                if (!deleted) {
+                        return res.status(404).json({ message: 'Tweet not found' });
+                }
+
+                res.json({ message: 'Tweet deleted' });
+        } catch (error) {
+                console.error(error);
+                res.status(500).json({ message: 'Failed to delete tweet' });
+        }
+});
+
 module.exports = router;
