@@ -15,11 +15,9 @@ const PORT = process.env.PORT || 3001;
 // Set up Handlebars.js engine with custom helpers
 const hbs = exphbs.create({ helpers });
 
-// Use SESSION_SECRET from environment or fall back to a placeholder
-const sessionSecret = process.env.SESSION_SECRET || 'Super secret secret';
-
+// Use SESSION_SECRET from environment
 const sess = {
-        secret: sessionSecret,
+        secret: process.env.SESSION_SECRET,
 	cookie: {
 		maxAge: 300000,
 		httpOnly: true,
