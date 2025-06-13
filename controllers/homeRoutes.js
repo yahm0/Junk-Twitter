@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Tweet } = require('../models'); // import both User and Tweet models
+const { User, Tweet, Like } = require('../models');
 const bcrypt = require('bcrypt'); // For hashing passwords
 const { authenticateUser } = require('./authController'); // Adjusted the path if necessary
 
@@ -8,17 +8,26 @@ router.get('/homepage', async (req, res) => {
 	if (req.session.user) {
 		try {
 			// Fetch tweets from the database that belong to the logged-in user
-			const tweets = (
-				await Tweet.findAll({
-					include: [
-						{
-							model: User,
-							attributes: ['username'],
-						},
-					],
-					order: [['createdAt', 'DESC']],
-				})
-			).map((tweet) => tweet.get({ plain: true })); // This converts Sequelize instances to plain objects.
+                        const tweets = (
+                                await Tweet.findAll({
+                                        include: [
+                                                {
+                                                        model: User,
+                                                        attributes: ['username'],
+                                                },
+                                                {
+                                                        model: Like,
+                                                        attributes: ['user_id'],
+                                                },
+                                        ],
+                                        order: [['createdAt', 'DESC']],
+                                })
+                        ).map((tweet) => tweet.get({ plain: true }));
+
+                        tweets.forEach((tweet) => {
+                                tweet.likeCount = tweet.likes ? tweet.likes.length : 0;
+                                tweet.userLiked = tweet.likes ? tweet.likes.some((l) => l.user_id === req.session.user.id) : false;
+                        });
 
 			res.render('homepage', {
 				user: req.session.user, // Pass the entire user session
