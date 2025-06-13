@@ -1,16 +1,34 @@
 const router = require('express').Router();
-const { User, Tweet } = require('../models');
+const { User, Tweet, Like } = require('../models');
 const bcrypt = require('bcrypt'); // For hashing passwords
 const { authenticateUser } = require('./authController'); // Adjusted the path if necessary
 
 // Route to serve the homepage
 router.get('/homepage', async (req, res) => {
-        if (req.session.user) {
-                try {
-                        const tweets = await Tweet.find()
-                                .populate('user_id', 'username')
-                                .sort({ createdAt: -1 })
-                                .lean();
+
+	if (req.session.user) {
+		try {
+			// Fetch tweets from the database that belong to the logged-in user
+                        const tweets = (
+                                await Tweet.findAll({
+                                        include: [
+                                                {
+                                                        model: User,
+                                                        attributes: ['username'],
+                                                },
+                                                {
+                                                        model: Like,
+                                                        attributes: ['user_id'],
+                                                },
+                                        ],
+                                        order: [['createdAt', 'DESC']],
+                                })
+                        ).map((tweet) => tweet.get({ plain: true }));
+
+                        tweets.forEach((tweet) => {
+                                tweet.likeCount = tweet.likes ? tweet.likes.length : 0;
+                                tweet.userLiked = tweet.likes ? tweet.likes.some((l) => l.user_id === req.session.user.id) : false;
+                        });
 
                         res.render('homepage', {
                                 user: req.session.user,
