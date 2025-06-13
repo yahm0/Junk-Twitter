@@ -1,28 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const { Tweet, Like } = require('../models'); // Corrected import path
+const { Tweet, Like } = require('../models');
 
 const likeTweet = async (req, res) => {
   try {
     const { userId, tweetId } = req.body;
 
-    // Check if the tweet exists
-    const tweet = await Tweet.findByPk(tweetId);
+    const tweet = await Tweet.findById(tweetId);
     if (!tweet) {
       return res.status(404).json({ message: 'Tweet not found' });
     }
 
-    // Prevent duplicate likes
-    const [like, created] = await Like.findOrCreate({
-      where: { user_id: userId, tweet_id: tweetId },
-      defaults: { is_like: true }
-    });
-
-    if (!created) {
+    const existing = await Like.findOne({ user_id: userId, tweet_id: tweetId });
+    if (existing) {
       return res.status(409).json({ message: 'You already liked this tweet' });
     }
 
-    // If the like was successfully created
+    await Like.create({ user_id: userId, tweet_id: tweetId, is_like: true });
     res.status(201).json({ message: 'Tweet liked successfully' });
   } catch (error) {
     console.error(error);

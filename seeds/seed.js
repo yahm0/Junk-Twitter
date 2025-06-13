@@ -1,29 +1,26 @@
-const sequelize = require('../config/connection');
+const db = require('../config/connection');
 const { User, Tweet } = require('../models');
-// Like
 const userData = require('./userData.json');
 const tweetData = require('./tweetData.json');
-// const likesData = require('./likesData.json');
 
 const seedDatabase = async () => {
-  await sequelize.sync({ force: true });
+  await User.deleteMany({});
+  await Tweet.deleteMany({});
 
-  await User.bulkCreate(userData, {
-    individualHooks: true,
-    returning: true,
-  });
+  const users = await User.insertMany(userData);
 
-  await Tweet.bulkCreate(tweetData, {
-    individualHooks: true,
-    returning: true,
-  });
+  const userMap = {};
+  users.forEach((u, idx) => { userMap[idx + 1] = u._id; });
 
-  // await Like.bulkCreate(likesData, {
-  //   individualHooks: true,
-  //   returning: true,
-  // });
+  const tweets = tweetData.map(t => ({
+    content: t.content,
+    user_id: userMap[t.user_id],
+    ephemeral: t.ephemeral || false
+  }));
+  await Tweet.insertMany(tweets);
 
+  console.log('Database seeded');
   process.exit(0);
 };
 
-seedDatabase();
+db.once('open', seedDatabase);

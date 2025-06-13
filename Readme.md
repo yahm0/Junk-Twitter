@@ -51,12 +51,10 @@ Before you begin, ensure you have met the following requirements:
 4. Create a .env file in the root directory of the project.
 5. Add the following environment variables to the .env file:
    ```plaintext
-   DB_NAME=your_database_name
-   DB_USER=your_database_username
-   DB_PASSWORD=your_database_password
+   MONGODB_URI=your_mongodb_connection_string
    SESSION_SECRET=your_session_secret
    ```
-   Replace your_database_name, your_database_username, and your_database_password with your actual database credentials.
+   Replace `your_mongodb_connection_string` with the connection string for your MongoDB instance.
 
 6. To start the application, run the following command:
     ```bash
@@ -109,8 +107,7 @@ Before you begin, ensure you have met the following requirements:
 - [dotenv](https://www.npmjs.com/package/dotenv) v8.2.0
 - [express](https://www.npmjs.com/package/express) v4.17.1
 - [express-handlebars](https://www.npmjs.com/package/express-handlebars) v5.2.0
-- [mysql2](https://www.npmjs.com/package/mysql2) v2.2.5
-- [sequelize](https://www.npmjs.com/package/sequelize) v6.3.5
+- [mongoose](https://www.npmjs.com/package/mongoose) v7
 - [express-session](https://www.npmjs.com/package/express-session) v1.17.2
 - [cookie-parser](https://www.npmjs.com/package/cookie-parser) v1.4.5
 

@@ -6,8 +6,7 @@ const cookieParser = require('cookie-parser');
 const routes = require('./controllers');
 const helpers = require('./utils/helpers'); // Import your custom helpers
 
-const sequelize = require('./config/connection');
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const db = require('./config/connection');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -20,17 +19,14 @@ const sessionSecret = process.env.SESSION_SECRET || 'Super secret secret';
 
 const sess = {
         secret: sessionSecret,
-	cookie: {
-		maxAge: 300000,
-		httpOnly: true,
-		secure: false,
-		sameSite: 'strict',
-	},
-	resave: false,
-	saveUninitialized: true,
-	store: new SequelizeStore({
-		db: sequelize,
-	}),
+        cookie: {
+                maxAge: 300000,
+                httpOnly: true,
+                secure: false,
+                sameSite: 'strict',
+        },
+        resave: false,
+        saveUninitialized: true,
 };
 
 app.use(session(sess));
@@ -50,6 +46,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Apply routes from the external router
 app.use(routes);
 
-sequelize.sync({ force: false }).then(() => {
-	app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}/`));
+db.once('open', () => {
+        app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}/`));
 });

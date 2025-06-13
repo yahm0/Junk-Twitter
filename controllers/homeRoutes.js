@@ -1,37 +1,29 @@
 const router = require('express').Router();
-const { User, Tweet } = require('../models'); // import both User and Tweet models
+const { User, Tweet } = require('../models');
 const bcrypt = require('bcrypt'); // For hashing passwords
 const { authenticateUser } = require('./authController'); // Adjusted the path if necessary
 
 // Route to serve the homepage
 router.get('/homepage', async (req, res) => {
-	if (req.session.user) {
-		try {
-			// Fetch tweets from the database that belong to the logged-in user
-			const tweets = (
-				await Tweet.findAll({
-					include: [
-						{
-							model: User,
-							attributes: ['username'],
-						},
-					],
-					order: [['createdAt', 'DESC']],
-				})
-			).map((tweet) => tweet.get({ plain: true })); // This converts Sequelize instances to plain objects.
+        if (req.session.user) {
+                try {
+                        const tweets = await Tweet.find()
+                                .populate('user_id', 'username')
+                                .sort({ createdAt: -1 })
+                                .lean();
 
-			res.render('homepage', {
-				user: req.session.user, // Pass the entire user session
-				tweets: tweets, // Pass the tweets array
-				logged_in: true, // You can pass this to indicate that the user is logged in
-			});
-		} catch (error) {
-			console.error('Failed to fetch tweets:', error);
-			res.status(500).send('Error fetching tweets');
-		}
-	} else {
-		res.redirect('/login');
-	}
+                        res.render('homepage', {
+                                user: req.session.user,
+                                tweets,
+                                logged_in: true,
+                        });
+                } catch (error) {
+                        console.error('Failed to fetch tweets:', error);
+                        res.status(500).send('Error fetching tweets');
+                }
+        } else {
+                res.redirect('/login');
+        }
 });
 
 // Route to serve the main page
@@ -97,38 +89,31 @@ router.post('/signup', async (req, res) => {
 				res.json({ success: true }); // Indicate success and handle redirection client-side
 			}
 		});
-	} catch (error) {
-		console.error('Error signing up user:', error);
-		if (error.name === 'SequelizeUniqueConstraintError') {
-			res.status(409).json({ success: false, message: 'Email already exists.' });
-		} else {
-			res.status(500).json({ success: false, message: 'An error occurred during sign-up. Please try again.' });
-		}
-	}
+        } catch (error) {
+                console.error('Error signing up user:', error);
+                if (error.code === 11000) {
+                        res.status(409).json({ success: false, message: 'Email already exists.' });
+                } else {
+                        res.status(500).json({ success: false, message: 'An error occurred during sign-up. Please try again.' });
+                }
+        }
 });
 
 // Route to display a user's profile by id
 router.get('/profile/:id', async (req, res) => {
         try {
-                const userData = await User.findByPk(req.params.id, {
-                        include: [
-                                {
-                                        model: Tweet,
-                                        attributes: ['content', 'createdAt'],
-                                },
-                        ],
-                });
-
-                if (!userData) {
+                const profile = await User.findById(req.params.id).lean();
+                if (!profile) {
                         return res.status(404).send('User not found');
                 }
-
-                const profile = userData.get({ plain: true });
+                const tweets = await Tweet.find({ user_id: profile._id })
+                        .sort({ createdAt: -1 })
+                        .lean();
 
                 res.render('profile', {
                         user: req.session.user,
                         profile,
-                        tweets: profile.tweets,
+                        tweets,
                         logged_in: !!req.session.user,
                 });
         } catch (err) {
