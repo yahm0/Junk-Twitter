@@ -17,15 +17,22 @@ Tweet.init(
 			type: DataTypes.TEXT,
 			allowNull: true,
 		},
-		user_id: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'user', // This references the 'users' table
-				key: 'id',
-			},
-		},
-	},
+                user_id: {
+                        type: DataTypes.INTEGER,
+                        allowNull: false,
+                        references: {
+                                model: 'user', // This references the 'users' table
+                                key: 'id',
+                        },
+                },
+                // Indicates whether a tweet should be automatically removed
+                // once it's out of view on the client
+                ephemeral: {
+                        type: DataTypes.BOOLEAN,
+                        allowNull: false,
+                        defaultValue: false,
+                },
+        },
 	{
 		sequelize,
 		modelName: 'tweet',

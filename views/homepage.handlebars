@@ -13,7 +13,7 @@
                 <span class="icon">📝</span>
                 <span>Lists</span>
             </a>
-            <a class="w-full bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center items-center">
+            <a href="/profile/{{user.id}}" class="w-full bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center items-center">
                 <span class="icon">👤</span>
                 <span>Profile</span>
             </a>
@@ -35,7 +35,7 @@
         <!-- Cards from all users -->
         <div id="tweetsContainer" class="space-y-4">
             {{#each tweets}}
-            <div class="card bg-white shadow rounded-lg p-6 mb-4">
+            <div class="card bg-white shadow rounded-lg p-6 mb-4" data-tweet-id="{{this.id}}">
                 <div class="flex flex-col">
                     <p class="text-gray-800">{{this.content}}</p>
                     <p class="text-sm text-gray-600">Posted on {{format_date createdAt}}</p>

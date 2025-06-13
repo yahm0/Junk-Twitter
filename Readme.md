@@ -50,12 +50,13 @@ Before you begin, ensure you have met the following requirements:
    ```
 4. Create a .env file in the root directory of the project.
 5. Add the following environment variables to the .env file:
-    ```plaintext
+   ```plaintext
    DB_NAME=your_database_name
-    DB_USER=your_database_username
-    DB_PASSWORD=your_database_password
+   DB_USER=your_database_username
+   DB_PASSWORD=your_database_password
+   SESSION_SECRET=your_session_secret
    ```
-    Replace your_database_name, your_database_username, and your_database_password with your actual database credentials.
+   Replace your_database_name, your_database_username, and your_database_password with your actual database credentials.
 
 6. To start the application, run the following command:
     ```bash
