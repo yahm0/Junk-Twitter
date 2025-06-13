@@ -1,33 +1,47 @@
-const express = require('express');
-const router = express.Router();
-const { Tweet, Like } = require('../models'); // Corrected import path
+const router = require('express').Router();
+const { Like, Tweet } = require('../models');
 
-const likeTweet = async (req, res) => {
+// Like a tweet
+router.post('/:tweetId', async (req, res) => {
   try {
-    const { userId, tweetId } = req.body;
+    const { tweetId } = req.params;
+    const userId = req.session.user.id;
 
-    // Check if the tweet exists
     const tweet = await Tweet.findByPk(tweetId);
     if (!tweet) {
       return res.status(404).json({ message: 'Tweet not found' });
     }
 
-    // Prevent duplicate likes
     const [like, created] = await Like.findOrCreate({
       where: { user_id: userId, tweet_id: tweetId },
-      defaults: { is_like: true }
+      defaults: { is_like: true },
     });
 
     if (!created) {
-      return res.status(409).json({ message: 'You already liked this tweet' });
+      return res.status(409).json({ message: 'Already liked' });
     }
 
-    // If the like was successfully created
-    res.status(201).json({ message: 'Tweet liked successfully' });
-  } catch (error) {
-    console.error(error);
+    res.status(201).json({ message: 'Liked' });
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: 'Liking tweet failed' });
   }
-};
+});
 
-module.exports = likeTweet;
+// Unlike a tweet
+router.delete('/:tweetId', async (req, res) => {
+  try {
+    const { tweetId } = req.params;
+    const userId = req.session.user.id;
+    const deleted = await Like.destroy({ where: { user_id: userId, tweet_id: tweetId } });
+    if (!deleted) {
+      return res.status(404).json({ message: 'Like not found' });
+    }
+    res.json({ message: 'Unliked' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Unliking tweet failed' });
+  }
+});
+
+module.exports = router;

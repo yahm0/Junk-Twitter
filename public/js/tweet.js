@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tweetButton = document.getElementById('tweetSubmit');
     const tweetInput = document.getElementById('tweetInput');
     const tweetsContainer = document.getElementById('tweetsContainer');
-    
+
     tweetButton.addEventListener('click', async () => {
         const tweetContent = tweetInput.value.trim();
         if (tweetContent) {
@@ -13,18 +13,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify({ content: tweetContent })
                 });
                 const data = await response.json();
-                console.log(data);  // Add this line to log the data received from server
+                console.log(data);
                 if (response.ok) {
-                    // Append the new tweet to the tweetsContainer
                     const newTweetDiv = document.createElement('div');
                     newTweetDiv.className = 'card bg-white shadow rounded-lg p-6 mb-4';
                     newTweetDiv.innerHTML = `
                         <div class="flex flex-col">
                             <p class="text-gray-800">${data.tweet ? data.tweet.content : 'Error: Tweet content missing.'}</p>
                             <p class="text-sm text-gray-600">Posted just now</p>
+                            <div class="flex items-center mt-2">
+                                <button class="like-btn bg-blue-500 text-white px-2 py-1 rounded" data-tweet-id="${data.tweet.id}" data-liked="false">Like</button>
+                                <span class="like-count ml-2">0</span>
+                            </div>
                         </div>`;
-                    tweetsContainer.prepend(newTweetDiv); // Add the new tweet at the top
-                    tweetInput.value = ''; // Clear the textarea
+                    tweetsContainer.prepend(newTweetDiv);
+                    tweetInput.value = '';
                 } else {
                     throw new Error(data.message || 'Failed to post tweet');
                 }
