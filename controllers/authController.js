@@ -5,7 +5,7 @@ exports.authenticateUser = async (email, password) => {
     try {
         // Normalize email to lowercase before querying the database
         const normalizedEmail = email.toLowerCase();
-        const user = await User.findOne({ where: { email: normalizedEmail } });
+        const user = await User.findOne({ email: normalizedEmail });
         
         if (!user) {
             // Avoid logging emails or other sensitive information in production

@@ -1,12 +1,11 @@
-require('dotenv').config(); // This line loads the environment variables from the .env file
-const { Sequelize } = require('sequelize');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-const sequelize = process.env.JAWSDB_URL
-	? new Sequelize(process.env.JAWSDB_URL)
-	: new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-			host: 'localhost',
-			dialect: 'mysql',
-			port: 3306,
-		});
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/junk';
 
-module.exports = sequelize;
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+module.exports = mongoose.connection;

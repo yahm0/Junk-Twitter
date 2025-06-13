@@ -1,3 +1,4 @@
+
 const router = require('express').Router();
 const { Like, Tweet } = require('../models');
 
@@ -7,7 +8,9 @@ router.post('/:tweetId', async (req, res) => {
     const { tweetId } = req.params;
     const userId = req.session.user.id;
 
+
     const tweet = await Tweet.findByPk(tweetId);
+
     if (!tweet) {
       return res.status(404).json({ message: 'Tweet not found' });
     }
@@ -24,6 +27,7 @@ router.post('/:tweetId', async (req, res) => {
     res.status(201).json({ message: 'Liked' });
   } catch (err) {
     console.error(err);
+
     res.status(500).json({ message: 'Liking tweet failed' });
   }
 });
