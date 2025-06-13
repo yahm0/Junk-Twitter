@@ -107,6 +107,36 @@ router.post('/signup', async (req, res) => {
 	}
 });
 
+// Route to display a user's profile by id
+router.get('/profile/:id', async (req, res) => {
+        try {
+                const userData = await User.findByPk(req.params.id, {
+                        include: [
+                                {
+                                        model: Tweet,
+                                        attributes: ['content', 'createdAt'],
+                                },
+                        ],
+                });
+
+                if (!userData) {
+                        return res.status(404).send('User not found');
+                }
+
+                const profile = userData.get({ plain: true });
+
+                res.render('profile', {
+                        user: req.session.user,
+                        profile,
+                        tweets: profile.tweets,
+                        logged_in: !!req.session.user,
+                });
+        } catch (err) {
+                console.error('Failed to load profile:', err);
+                res.status(500).send('Error loading profile');
+        }
+});
+
 // Route to handle user logout
 // Assuming this is inside your router setup file, such as authRoutes.js
 router.post('/logout', (req, res) => {

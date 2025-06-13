@@ -1,0 +1,11 @@
+<div class="p-6 space-y-6 font-mono">
+    <h2 class="text-2xl font-bold mb-4">{{profile.username}}'s Profile</h2>
+    <div class="space-y-4">
+        {{#each profile.tweets}}
+        <div class="card bg-white shadow rounded-lg p-4">
+            <p class="text-gray-800">{{this.content}}</p>
+            <p class="text-sm text-gray-600">Posted on {{format_date this.createdAt}}</p>
+        </div>
+        {{/each}}
+    </div>
+</div>
